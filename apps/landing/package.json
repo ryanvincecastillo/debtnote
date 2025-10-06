@@ -1,0 +1,10 @@
+{
+  "name": "@debtnote/landing",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve . -p 3001",
+    "build": "echo 'No build needed for static HTML'",
+    "start": "npx serve . -p 3001"
+  }
+}
