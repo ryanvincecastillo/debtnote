@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debt Note - Modern Microfinance Management Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 24px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: #dc2626;
+        }
+
+        nav a {
+            color: #666;
+            text-decoration: none;
+            margin-left: 40px;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #dc2626;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 180px 60px 120px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #fef2f2;
+            color: #dc2626;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            color: #1a1a1a;
+        }
+
+        .hero h1 .highlight {
+            color: #dc2626;
+        }
+
+        .hero .tagline {
+            font-size: 22px;
+            margin-bottom: 40px;
+            color: #666;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 16px 32px;
+            background: #dc2626;
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            padding: 16px 32px;
+            background: #f9fafb;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s;
+            border: 1px solid #e5e7eb;
+        }
+
+        .btn-secondary:hover {
+            background: #f3f4f6;
+            transform: translateY(-2px);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 120px 60px;
+            background: #fafafa;
+        }
+
+        .features-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-label {
+            color: #dc2626;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            color: #1a1a1a;
+        }
+
+        .section-description {
+            font-size: 18px;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+
+        .feature-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            border: 1px solid #f0f0f0;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 24px;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 120px 60px;
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: #fff;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 60px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+
+        .stat-item p {
+            font-size: 16px;
+            font-weight: 500;
+            opacity: 0.9;
+            letter-spacing: 0.5px;
+        }
+
+        /* Compliance Section */
+        .compliance {
+            padding: 120px 60px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .compliance-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .compliance h2 {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .compliance p {
+            font-size: 18px;
+            color: #999;
+            margin-bottom: 50px;
+            line-height: 1.7;
+        }
+
+        .compliance-badges {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .badge-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 24px 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 120px 60px;
+            background: #fafafa;
+        }
+
+        .pricing-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+
+        .pricing-card {
+            background: #fff;
+            padding: 48px;
+            border-radius: 24px;
+            border: 2px solid #f0f0f0;
+            transition: all 0.3s;
+        }
+
+        .pricing-card.featured {
+            border-color: #dc2626;
+            box-shadow: 0 20px 60px rgba(220, 38, 38, 0.15);
+            transform: scale(1.05);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-card.featured:hover {
+            transform: translateY(-8px) scale(1.07);
+        }
+
+        .plan-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #dc2626;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .price {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -2px;
+            color: #1a1a1a;
+        }
+
+        .price span {
+            font-size: 18px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .price-description {
+            color: #666;
+            margin-bottom: 32px;
+            font-size: 14px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+
+        .pricing-features li {
+            padding: 12px 0;
+            color: #666;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .pricing-features li::before {
+            content: "✓";
+            color: #dc2626;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 18px;
+        }
+
+        /* CTA Section */
+        .final-cta {
+            padding: 140px 60px;
+            text-align: center;
+            background: linear-gradient(135deg, #fef2f2 0%, #ffffff 100%);
+        }
+
+        .final-cta h2 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+            color: #1a1a1a;
+        }
+
+        .final-cta p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            color: #666;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px;
+            text-align: center;
+            background: #1a1a1a;
+            color: #999;
+        }
+
+        footer p {
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .footer-links {
+            margin-top: 24px;
+        }
+
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            margin: 0 16px;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #dc2626;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 20px 24px;
+            }
+
+            nav a {
+                margin-left: 20px;
+                font-size: 14px;
+            }
+
+            .hero {
+                padding: 140px 24px 80px;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero .tagline {
+                font-size: 18px;
+            }
+
+            .features,
+            .stats,
+            .pricing,
+            .compliance,
+            .final-cta {
+                padding: 80px 24px;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+
+            .features-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                gap: 40px;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">Debt<span>Note</span></div>
+        <nav>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="badge">🇵🇭 SEC REGISTERED & COMPLIANT</div>
+            <h1>Modern Microfinance <span class="highlight">Management Platform</span></h1>
+            <p class="tagline">Streamline your lending operations with AI-powered automation, real-time analytics, and complete regulatory compliance for Philippine microfinance institutions.</p>
+            <div class="cta-buttons">
+                <a href="#contact" class="btn-primary">Schedule a Demo</a>
+                <a href="#features" class="btn-secondary">Explore Features</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="features-container">
+            <div class="section-header">
+                <div class="section-label">PLATFORM CAPABILITIES</div>
+                <h2 class="section-title">Everything You Need to Scale</h2>
+                <p class="section-description">A comprehensive suite of tools designed specifically for Philippine lending companies and microfinance institutions.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Loan Origination System</h3>
+                    <p>Streamline applications from submission to disbursement with automated workflows, e-signatures, and document management.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI Credit Scoring</h3>
+                    <p>Make data-driven lending decisions with machine learning models that predict default risk and optimize approval rates.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Field Officer Mobile App</h3>
+                    <p>Empower your team with offline-capable mobile apps for collections, customer verification, and real-time updates.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💳</div>
+                    <h3>Multi-Channel Payments</h3>
+                    <p>Accept payments via GCash, PayMaya, bank transfers, and cash with automated reconciliation and receipt generation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Advanced Analytics</h3>
+                    <p>Real-time dashboards and reports for portfolio performance, collection efficiency, and business intelligence.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Enterprise Security</h3>
+                    <p>Bank-grade encryption, role-based access control, and full compliance with Data Privacy Act of 2012.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>99.9%</h3>
+                    <p>System Uptime Guarantee</p>
+                </div>
+                <div class="stat-item">
+                    <h3>3 Min</h3>
+                    <p>Average Loan Processing</p>
+                </div>
+                <div class="stat-item">
+                    <h3>40%</h3>
+                    <p>Reduction in Operational Costs</p>
+                </div>
+                <div class="stat-item">
+                    <h3>24/7</h3>
+                    <p>Customer Support Available</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Compliance Section -->
+    <section class="compliance">
+        <div class="compliance-container">
+            <h2>Built for Philippine Regulatory Standards</h2>
+            <p>Fully compliant with all SEC, BSP, and government requirements for lending companies in the Philippines.</p>
+            <div class="compliance-badges">
+                <div class="badge-item">RA 9474 COMPLIANT</div>
+                <div class="badge-item">DATA PRIVACY ACT</div>
+                <div class="badge-item">TRUTH IN LENDING</div>
+                <div class="badge-item">SEC REGISTERED</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="pricing-container">
+            <div class="section-header">
+                <div class="section-label">TRANSPARENT PRICING</div>
+                <h2 class="section-title">Plans That Scale With You</h2>
+                <p class="section-description">Choose the perfect plan for your lending business. No hidden fees, no surprises.</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="plan-name">Starter</div>
+                    <div class="price">₱29K<span>/month</span></div>
+                    <p class="price-description">Perfect for small lending businesses</p>
+                    <ul class="pricing-features">
+                        <li>Up to 500 active borrowers</li>
+                        <li>Loan management system</li>
+                        <li>Mobile app for field officers</li>
+                        <li>1,000 SMS notifications/month</li>
+                        <li>Basic reporting & analytics</li>
+                        <li>Email support</li>
+                    </ul>
+                    <a href="#contact" class="btn-primary" style="display: block; text-align: center;">Get Started</a>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="plan-name">Professional</div>
+                    <div class="price">₱59K<span>/month</span></div>
+                    <p class="price-description">Most popular for growing businesses</p>
+                    <ul class="pricing-features">
+                        <li>Up to 2,000 active borrowers</li>
+                        <li>AI-powered credit scoring</li>
+                        <li>Advanced loan products</li>
+                        <li>5,000 SMS notifications/month</li>
+                        <li>Advanced analytics & insights</li>
+                        <li>Multi-branch management</li>
+                        <li>Priority phone support</li>
+                    </ul>
+                    <a href="#contact" class="btn-primary" style="display: block; text-align: center;">Get Started</a>
+                </div>
+                <div class="pricing-card">
+                    <div class="plan-name">Enterprise</div>
+                    <div class="price">Custom</div>
+                    <p class="price-description">For large-scale operations</p>
+                    <ul class="pricing-features">
+                        <li>Unlimited active borrowers</li>
+                        <li>White-label solution</li>
+                        <li>Custom feature development</li>
+                        <li>Unlimited SMS notifications</li>
+                        <li>Dedicated infrastructure</li>
+                        <li>Custom integrations & API</li>
+                        <li>24/7 dedicated support</li>
+                        <li>On-site training included</li>
+                    </ul>
+                    <a href="#contact" class="btn-secondary" style="display: block; text-align: center;">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta" id="contact">
+        <h2>Ready to Transform Your Lending Business?</h2>
+        <p>Join hundreds of lending companies across the Philippines who trust DebtNote to manage their microfinance operations efficiently and compliantly.</p>
+        <a href="mailto:hello@debtnote.ph" class="btn-primary">Schedule Your Free Demo</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>DebtNote</strong> - Modern Microfinance Management Platform</p>
+        <p>SEC Registered Lending Company Software Solution</p>
+        <div class="footer-links">
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#terms">Terms of Service</a>
+            <a href="#contact">Contact Us</a>
+        </div>
+        <p style="margin-top: 24px; font-size: 12px; opacity: 0.6;">&copy; 2025 DebtNote. Compliant with RA 9474, RA 10173, and RA 3765.</p>
+    </footer>
+</body>
+</html>
