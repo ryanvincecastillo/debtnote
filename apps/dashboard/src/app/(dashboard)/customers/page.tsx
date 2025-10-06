@@ -23,7 +23,7 @@ export default async function CustomersPage() {
           <p className="text-gray-600 mt-1">Manage your customer database</p>
         </div>
         <Link
-          href="/dashboard/customers/new"
+          href="/customers/new"
           className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium"
         >
           + Add Customer
@@ -123,7 +123,7 @@ export default async function CustomersPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <Link
-                        href={`/dashboard/customers/${customer.id}`}
+                        href={`/customers/${customer.id}`}
                         className="text-red-600 hover:text-red-900 mr-4"
                       >
                         View

@@ -34,16 +34,16 @@ export default async function DashboardLayout({
               <a href="/dashboard" className="text-gray-700 hover:text-red-600 font-medium">
                 Dashboard
               </a>
-              <a href="/dashboard/customers" className="text-gray-700 hover:text-red-600 font-medium">
+              <a href="/customers" className="text-gray-700 hover:text-red-600 font-medium">
                 Customers
               </a>
-              <a href="/dashboard/loans" className="text-gray-700 hover:text-red-600 font-medium">
+              <a href="/loans" className="text-gray-700 hover:text-red-600 font-medium">
                 Loans
               </a>
-              <a href="/dashboard/payments" className="text-gray-700 hover:text-red-600 font-medium">
+              <a href="/payments" className="text-gray-700 hover:text-red-600 font-medium">
                 Payments
               </a>
-              <a href="/dashboard/reports" className="text-gray-700 hover:text-red-600 font-medium">
+              <a href="/reports" className="text-gray-700 hover:text-red-600 font-medium">
                 Reports
               </a>
             </nav>
