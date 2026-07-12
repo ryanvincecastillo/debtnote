@@ -1,13 +1,12 @@
 {
   "name": "debtnote",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "2.0.0",
+  "private": true,
+  "description": "DebtNote — personal utang/pautang collection for Filipinos",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "web:dev": "npm run dev --prefix apps/web",
+    "web:build": "npm run build --prefix apps/web",
+    "web:start": "npm run start --prefix apps/web"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "packageManager": "pnpm@10.18.1"
 }

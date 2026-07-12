@@ -1,0 +1,1 @@
+-- Remote baseline placeholder (applied on shared Supabase project)

@@ -13,6 +13,8 @@ build
 .next
 .expo
 .turbo
+apps/mobile/build/
+apps/mobile/.dart_tool/
 
 # OS files
 .DS_Store
