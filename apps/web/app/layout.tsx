@@ -26,7 +26,13 @@ export const metadata: Metadata = {
     title: "DebtNote",
     description: "Let the notebook do the talking.",
     type: "website",
-    images: [{ url: "/debtnote-app.png" }],
+    images: [{ url: "/og-banner.png", width: 1376, height: 768, alt: "DebtNote" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DebtNote",
+    description: "Let the notebook do the talking.",
+    images: ["/og-banner.png"],
   },
 };
 

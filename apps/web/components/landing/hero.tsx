@@ -10,7 +10,7 @@ import {
   useTransform,
   useReducedMotion,
 } from "framer-motion";
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { buttonClasses } from "@/components/ui/button";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -19,14 +19,13 @@ function NotebookVisual() {
   const reduce = useReducedMotion();
   const ref = React.useRef<HTMLDivElement>(null);
 
-  // Pointer-driven 3D tilt.
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const rotX = useSpring(useTransform(my, [-0.5, 0.5], [10, -10]), {
+  const rotX = useSpring(useTransform(my, [-0.5, 0.5], [8, -8]), {
     stiffness: 120,
     damping: 18,
   });
-  const rotY = useSpring(useTransform(mx, [-0.5, 0.5], [-14, 14]), {
+  const rotY = useSpring(useTransform(mx, [-0.5, 0.5], [-12, 12]), {
     stiffness: 120,
     damping: 18,
   });
@@ -49,36 +48,30 @@ function NotebookVisual() {
       ref={ref}
       onPointerMove={handleMove}
       onPointerLeave={handleLeave}
-      className="relative mx-auto flex w-full max-w-md items-center justify-center"
-      style={{ perspective: 1200 }}
+      className="relative mx-auto flex w-full max-w-[34rem] items-center justify-center lg:mx-0 lg:max-w-none lg:justify-end"
+      style={{ perspective: 1400 }}
     >
-      {/* Soft accent halo */}
+      {/* Soft white bloom — notebook is the light source */}
       <div
         aria-hidden
-        className="absolute h-[85%] w-[85%] rounded-full bg-accent/15 blur-[100px]"
-      />
-      <div
-        aria-hidden
-        className="absolute h-[60%] w-[60%] rounded-full bg-white/[0.04] blur-[80px]"
+        className="absolute right-1/2 h-[90%] w-[90%] translate-x-1/2 rounded-full bg-white/[0.07] blur-[100px] lg:right-0 lg:translate-x-[10%]"
       />
       <motion.div
-        className="relative"
+        className="relative w-full max-w-[28rem] lg:max-w-[32rem] xl:max-w-[36rem]"
         style={reduce ? undefined : { rotateX: rotX, rotateY: rotY, transformStyle: "preserve-3d" }}
-        animate={reduce ? undefined : { y: [0, -14, 0] }}
+        animate={reduce ? undefined : { y: [0, -12, 0] }}
         transition={
-          reduce
-            ? undefined
-            : { duration: 6, repeat: Infinity, ease: "easeInOut" }
+          reduce ? undefined : { duration: 7, repeat: Infinity, ease: "easeInOut" }
         }
       >
         <Image
           src="/debtnote.png"
-          alt="The DebtNote notebook"
-          width={420}
-          height={500}
+          alt="DebtNote notebook cover"
+          width={720}
+          height={860}
           priority
-          className="h-auto w-full drop-shadow-[0_40px_80px_rgba(0,0,0,0.7)]"
-          style={{ transform: "translateZ(40px)" }}
+          className="h-auto w-full select-none drop-shadow-[0_50px_100px_rgba(0,0,0,0.85)]"
+          style={{ transform: "translateZ(36px)" }}
         />
       </motion.div>
     </div>
@@ -87,89 +80,86 @@ function NotebookVisual() {
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28">
-      {/* Cooler ambient wash — soft white + quiet orange */}
+    <section className="relative isolate min-h-[100dvh] overflow-hidden">
+      {/* Full-bleed atmosphere */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            "radial-gradient(55% 45% at 72% 18%, rgba(255,108,55,0.1), transparent 65%), radial-gradient(40% 35% at 20% 40%, rgba(250,250,250,0.04), transparent 60%)",
+            "radial-gradient(55% 50% at 78% 42%, rgba(255,255,255,0.08), transparent 62%), radial-gradient(40% 35% at 18% 70%, rgba(255,255,255,0.03), transparent 55%), linear-gradient(180deg, #09090b 0%, #050505 100%)",
+        }}
+      />
+      {/* Fine grain */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.035]"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
         }}
       />
 
-      <div className="mx-auto grid max-w-6xl items-center gap-16 px-5 sm:px-8 lg:grid-cols-[1.05fr_0.95fr]">
+      <div className="mx-auto flex min-h-[100dvh] max-w-6xl flex-col justify-center gap-12 px-5 pb-16 pt-28 sm:px-8 lg:grid lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center lg:gap-8 lg:pb-20 lg:pt-24">
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: EASE }}
-          className="text-center lg:text-left"
+          className="relative z-10 max-w-xl text-center lg:text-left"
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-border-strong bg-surface px-3 py-1 text-xs tracking-wide text-muted">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-            Let the notebook do the talking.
-          </span>
-
-          <h1
-            className="mt-6 text-4xl leading-[1.05] text-paper sm:text-5xl lg:text-6xl"
+          <p
+            className="text-sm tracking-[0.18em] text-white/55 uppercase"
             style={{ fontFamily: "var(--font-crimson), serif" }}
           >
-            Collect what you&apos;re owed{" "}
-            <span className="text-accent">without the awkward</span> follow-up.
-          </h1>
-
-          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted lg:mx-0 sm:text-lg">
-            Utang or pautang, DebtNote keeps the record and does the reminding for
-            you. Write the name, share a signed agreement, and let the notebook
-            send the nudges — para hindi ikaw ang masamang tao.
+            DebtNote
           </p>
 
-          <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row lg:justify-start sm:justify-center">
-            <Link href="/login" className={buttonClasses({ size: "lg", className: "w-full sm:w-auto" })}>
+          <h1
+            className="mt-5 text-[2.6rem] leading-[1.02] tracking-tight text-white sm:text-5xl lg:text-[3.4rem]"
+            style={{ fontFamily: "var(--font-crimson), serif" }}
+          >
+            Collect what you&apos;re owed without the awkward follow-up.
+          </h1>
+
+          <p className="mx-auto mt-6 max-w-md text-base leading-relaxed text-zinc-400 lg:mx-0 sm:text-lg">
+            Utang or pautang — write the name, share a signed agreement, and let
+            the notebook send the nudges. Para hindi ikaw ang masamang tao.
+          </p>
+
+          <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row lg:justify-start">
+            <Link
+              href="/login"
+              className={buttonClasses({
+                variant: "inverse",
+                size: "lg",
+                className: "w-full sm:w-auto",
+              })}
+            >
               Get started
               <ArrowRight className="h-4 w-4" />
             </Link>
             <a
-              href="#features"
+              href="#how"
               className={buttonClasses({
                 variant: "outline",
                 size: "lg",
-                className: "w-full sm:w-auto",
+                className: "w-full border-white/25 text-white hover:border-white/50 hover:bg-white/5 sm:w-auto",
               })}
             >
               See how it works
             </a>
           </div>
-
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 lg:justify-start">
-            <TrustItem value="4" label="reminder tones" />
-            <span className="hidden h-8 w-px bg-border sm:block" />
-            <TrustItem value="₱0" label="to start — email nudges free" />
-            <span className="hidden h-8 w-px bg-border sm:block" />
-            <div className="flex items-center gap-2 text-sm text-muted">
-              <ShieldCheck className="h-4 w-4 text-receivable" />
-              No account needed for borrowers
-            </div>
-          </div>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.85, delay: 0.08, ease: EASE }}
+          className="relative lg:-mr-8 xl:-mr-16"
         >
           <NotebookVisual />
         </motion.div>
       </div>
     </section>
-  );
-}
-
-function TrustItem({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="text-center lg:text-left">
-      <div className="tnum text-2xl font-bold text-paper">{value}</div>
-      <div className="text-xs text-faint">{label}</div>
-    </div>
   );
 }

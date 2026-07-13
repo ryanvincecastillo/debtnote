@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "outline" | "ghost" | "danger";
+type Variant = "primary" | "inverse" | "outline" | "ghost" | "danger";
 type Size = "sm" | "md" | "lg";
 
 const base =
@@ -9,6 +9,8 @@ const base =
 
 const variants: Record<Variant, string> = {
   primary: "bg-accent text-paper hover:bg-accent-bright glow-accent-hover",
+  /** Landing / marketing CTA — white on black */
+  inverse: "bg-white text-zinc-950 hover:bg-zinc-100",
   outline:
     "border border-border-strong bg-transparent text-paper hover:border-paper/40 hover:bg-elevated",
   ghost: "text-muted hover:text-paper hover:bg-elevated",

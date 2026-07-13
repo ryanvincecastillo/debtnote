@@ -19,20 +19,20 @@ export function ToneShowcase() {
   const active = toneOptions.find((t) => t.id === tone);
 
   return (
-    <section className="relative border-t border-border py-24 sm:py-32">
+    <section className="relative border-t border-white/10 py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
-            <span className="inline-flex items-center rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs font-medium text-accent">
+            <p className="text-xs font-medium tracking-[0.16em] text-zinc-500 uppercase">
               Say it your way
-            </span>
+            </p>
             <h2
-              className="mt-4 text-3xl text-paper sm:text-4xl"
+              className="mt-4 text-3xl text-white sm:text-4xl"
               style={{ fontFamily: "var(--font-crimson), serif" }}
             >
               Four tones. Same goal.
             </h2>
-            <p className="mt-4 text-muted">
+            <p className="mt-4 text-zinc-400">
               Pick the voice that fits the relationship — a light Taglish nudge for
               barkada, or the dramatic Shinigami Notice when the deadline has come
               and gone. Tap to preview the actual email.
@@ -50,48 +50,45 @@ export function ToneShowcase() {
                     className={cn(
                       "rounded-xl border px-4 py-3 text-left transition-all",
                       selected
-                        ? "border-accent/50 bg-accent/10"
-                        : "border-border bg-surface hover:border-border-strong",
+                        ? "border-white/35 bg-white/[0.06]"
+                        : "border-white/10 bg-transparent hover:border-white/20",
                     )}
                   >
                     <div className="flex items-center gap-2">
                       <span
                         className={cn(
                           "h-2 w-2 rounded-full transition-colors",
-                          selected ? "bg-accent" : "bg-faint",
+                          selected ? "bg-white" : "bg-zinc-600",
                         )}
                       />
                       <span
                         className={cn(
                           "text-sm font-semibold",
-                          selected ? "text-paper" : "text-foreground",
+                          selected ? "text-white" : "text-zinc-300",
                         )}
                       >
                         {t.label}
                       </span>
                     </div>
-                    <p className="mt-1 pl-4 text-xs text-muted">{t.description}</p>
+                    <p className="mt-1 pl-4 text-xs text-zinc-500">{t.description}</p>
                   </button>
                 );
               })}
             </div>
           </div>
 
-          {/* Email preview */}
-          <div className="rounded-2xl border border-border-strong bg-surface p-1.5">
-            <div className="rounded-xl bg-elevated">
-              <div className="flex items-center gap-2 border-b border-border px-5 py-3">
-                <Mail className="h-4 w-4 text-accent" />
-                <span className="text-xs font-medium text-muted">
+          <div className="rounded-2xl border border-white/12 bg-[#0c0c0e] p-1.5">
+            <div className="rounded-xl bg-black">
+              <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3">
+                <Mail className="h-4 w-4 text-white" />
+                <span className="text-xs font-medium text-zinc-400">
                   DebtNote reminder
                 </span>
-                <span className="ml-auto text-xs text-faint">to {SAMPLE.borrower}</span>
+                <span className="ml-auto text-xs text-zinc-600">to {SAMPLE.borrower}</span>
               </div>
               <div className="notebook-line px-6 py-7">
-                <p className="text-xs uppercase tracking-wider text-faint">
-                  Subject
-                </p>
-                <p className="mt-1 font-semibold text-paper">
+                <p className="text-xs tracking-wider text-zinc-600 uppercase">Subject</p>
+                <p className="mt-1 font-semibold text-white">
                   Re: {SAMPLE.title} — {SAMPLE.amount}
                 </p>
 
@@ -103,19 +100,17 @@ export function ToneShowcase() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
                       transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                      className="text-[15px] leading-relaxed text-foreground"
+                      className="text-[15px] leading-relaxed text-zinc-300"
                     >
                       {renderTonePreview(tone, SAMPLE)}
                     </motion.p>
                   </AnimatePresence>
                 </div>
 
-                <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
-                  <span className="text-xs text-faint">
-                    {active?.label}
-                  </span>
+                <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
+                  <span className="text-xs text-zinc-600">{active?.label}</span>
                   <span
-                    className="text-sm font-bold text-accent"
+                    className="text-sm font-bold text-white"
                     style={{ fontFamily: "var(--font-crimson), serif" }}
                   >
                     DebtNote

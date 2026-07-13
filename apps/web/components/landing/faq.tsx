@@ -37,19 +37,19 @@ export function FAQ() {
   const [open, setOpen] = React.useState<number | null>(0);
 
   return (
-    <section id="faq" className="relative border-t border-border py-20 sm:py-28">
+    <section id="faq" className="relative border-t border-white/10 py-24 sm:py-32">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <h2
-          className="text-center text-3xl text-paper sm:text-4xl"
+          className="text-center text-3xl text-white sm:text-4xl"
           style={{ fontFamily: "var(--font-crimson), serif" }}
         >
           Mga tanong, sagot
         </h2>
-        <p className="mt-4 text-center text-muted">
+        <p className="mt-4 text-center text-zinc-400">
           The honest answers to what people ask before they start.
         </p>
 
-        <div className="mt-10 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface">
+        <div className="mt-10 divide-y divide-white/10 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02]">
           {FAQS.map((item, i) => {
             const isOpen = open === i;
             return (
@@ -58,12 +58,12 @@ export function FAQ() {
                   type="button"
                   onClick={() => setOpen(isOpen ? null : i)}
                   aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left transition-colors hover:bg-elevated/50"
+                  className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left transition-colors hover:bg-white/[0.03]"
                 >
-                  <span className="font-medium text-paper">{item.q}</span>
+                  <span className="font-medium text-white">{item.q}</span>
                   <Plus
                     className={cn(
-                      "h-5 w-5 shrink-0 text-accent transition-transform duration-300",
+                      "h-5 w-5 shrink-0 text-zinc-400 transition-transform duration-300",
                       isOpen && "rotate-45",
                     )}
                   />
@@ -77,7 +77,7 @@ export function FAQ() {
                       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                       className="overflow-hidden"
                     >
-                      <p className="px-5 pb-5 text-sm leading-relaxed text-muted">
+                      <p className="px-5 pb-5 text-sm leading-relaxed text-zinc-400">
                         {item.a}
                       </p>
                     </motion.div>

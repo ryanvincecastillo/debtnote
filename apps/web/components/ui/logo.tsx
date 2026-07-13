@@ -27,13 +27,20 @@ export function DNLogoMark({
 }
 
 /** Compact text lockup for tight nav spots. */
-export function DNWordmark({ className }: { className?: string }) {
+export function DNWordmark({
+  className,
+  mono = false,
+}: {
+  className?: string;
+  /** All-white wordmark for black/white marketing surfaces. */
+  mono?: boolean;
+}) {
   return (
     <span
       className={cn("text-lg font-bold tracking-tight text-paper", className)}
       style={{ fontFamily: "var(--font-crimson), serif" }}
     >
-      Debt<span className="text-accent">Note</span>
+      Debt<span className={mono ? "text-paper" : "text-accent"}>Note</span>
     </span>
   );
 }

@@ -16,24 +16,25 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
     links: [
       { label: "Sign in", href: "/login" },
       { label: "Create account", href: "/login" },
+      { label: "Home", href: "/home" },
     ],
   },
 ];
 
 export function LandingFooter() {
   return (
-    <footer className="border-t border-border bg-background">
+    <footer className="border-t border-white/10 bg-background">
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
-            <DNWordmark className="text-xl" />
+            <DNWordmark mono className="text-xl" />
             <p
-              className="mt-4 max-w-xs text-sm text-muted"
+              className="mt-4 max-w-xs text-sm text-zinc-400"
               style={{ fontFamily: "var(--font-crimson), serif" }}
             >
               Let the notebook do the talking.
             </p>
-            <p className="mt-3 max-w-xs text-xs text-faint">
+            <p className="mt-3 max-w-xs text-xs text-zinc-600">
               A personal utang &amp; pautang notebook for Filipinos. DebtNote is not
               a lender and does not charge interest.
             </p>
@@ -41,7 +42,7 @@ export function LandingFooter() {
 
           {COLUMNS.map((col) => (
             <div key={col.title}>
-              <h3 className="text-xs uppercase tracking-wider text-faint">
+              <h3 className="text-xs tracking-wider text-zinc-600 uppercase">
                 {col.title}
               </h3>
               <ul className="mt-4 space-y-3">
@@ -49,7 +50,7 @@ export function LandingFooter() {
                   <li key={l.label}>
                     <Link
                       href={l.href}
-                      className="text-sm text-muted transition-colors hover:text-paper"
+                      className="text-sm text-zinc-400 transition-colors hover:text-white"
                     >
                       {l.label}
                     </Link>
@@ -60,11 +61,11 @@ export function LandingFooter() {
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 sm:flex-row">
-          <p className="text-xs text-faint">
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 sm:flex-row">
+          <p className="text-xs text-zinc-600">
             © {new Date().getFullYear()} DebtNote. Made para sa Pilipino.
           </p>
-          <p className="text-xs text-faint">Peso-native · ₱ · Manila</p>
+          <p className="text-xs text-zinc-600">Peso-native · ₱ · Manila</p>
         </div>
       </div>
     </footer>

@@ -28,13 +28,13 @@ export function LandingNav() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         scrolled
-          ? "border-b border-border bg-background/80 backdrop-blur-xl"
+          ? "border-b border-white/10 bg-background/80 backdrop-blur-xl"
           : "border-b border-transparent bg-transparent",
       )}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
         <Link href="/" className="flex items-center" aria-label="DebtNote home">
-          <DNWordmark className="text-xl" />
+          <DNWordmark mono className="text-xl" />
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">
@@ -42,7 +42,7 @@ export function LandingNav() {
             <a
               key={l.href}
               href={l.href}
-              className="text-sm text-muted transition-colors hover:text-paper"
+              className="text-sm text-zinc-400 transition-colors hover:text-white"
             >
               {l.label}
             </a>
@@ -52,11 +52,11 @@ export function LandingNav() {
         <div className="flex items-center gap-2 sm:gap-3">
           <Link
             href="/login"
-            className="hidden text-sm text-muted transition-colors hover:text-paper sm:inline-flex sm:px-2"
+            className="hidden text-sm text-zinc-400 transition-colors hover:text-white sm:inline-flex sm:px-2"
           >
             Sign in
           </Link>
-          <Link href="/login" className={buttonClasses({ size: "sm" })}>
+          <Link href="/login" className={buttonClasses({ variant: "inverse", size: "sm" })}>
             Get started
           </Link>
         </div>
