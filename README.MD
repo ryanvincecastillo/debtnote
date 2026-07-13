@@ -7,7 +7,7 @@ Personal utang/pautang collection for Filipinos — dual ledger, automated email
 ```
 debtnote/
 ├── apps/
-│   ├── web/        # Next.js web app — landing (/) + authed dashboard (/app) + guest agreements (/a/[token])
+│   ├── web/        # Next.js web app — landing (/) + dashboard (/dashboard, /records, …) + guest (/a/[token])
 │   └── mobile/     # Flutter mobile client
 ├── supabase/
 │   ├── migrations/
@@ -49,7 +49,9 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000 — marketing landing at `/`, sign in at `/login` (email OTP), the app at `/app` (dashboard, records, contacts, reminders, paluwagan, settings), and the public guest agreement route at `/a/[token]`.
+Open http://localhost:3000 — marketing landing at `/`, sign in at `/login` (email OTP), the app at `/dashboard` (also `/records`, `/contacts`, `/reminders`, `/paluwagan`, `/settings`), and the public guest agreement route at `/a/[token]`. Old `/app/*` URLs permanently redirect to the flat routes.
+
+Sessions use the shared Supabase project: JWT ~1h with refresh (no absolute timebox / inactivity timeout), so you stay signed in across visits as long as the refresh cookie is valid. Changing Auth session settings here affects all apps on this project (InaanApp, etc.).
 
 ## Environment
 

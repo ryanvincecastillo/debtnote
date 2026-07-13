@@ -7,6 +7,7 @@ import type {
   Direction,
   Installment,
   Payment,
+  ProofSubmission,
   RecordStatus,
   Reminder,
 } from "@/lib/types";
@@ -21,23 +22,36 @@ export type RecordDetail = DebtRecord & {
   payments: Payment[];
   reminders: Reminder[];
   agreements: Agreement[];
+  proofs: ProofSubmission[];
 };
 
 /** Records owned by the current user (RLS-scoped). Newest first. */
 export async function listRecords(opts?: {
   direction?: Direction;
   status?: RecordStatus;
-}): Promise<RecordWithContact[]> {
+  overdueOnly?: boolean;
+}): Promise<(RecordWithContact & { has_overdue?: boolean })[]> {
   const supabase = await createClient();
   let q = supabase
     .from("debt_note_records")
-    .select("*, contact:debt_note_contacts(id, name)")
+    .select("*, contact:debt_note_contacts(id, name), installments:debt_note_installments(id, status)")
     .order("created_at", { ascending: false });
   if (opts?.direction) q = q.eq("direction", opts.direction);
   if (opts?.status) q = q.eq("status", opts.status);
   const { data, error } = await q;
   if (error) throw new Error(error.message);
-  return (data ?? []) as unknown as RecordWithContact[];
+
+  const rows = (data ?? []).map((raw) => {
+    const r = raw as unknown as RecordWithContact & {
+      installments?: { id: string; status: string }[];
+    };
+    const has_overdue = (r.installments ?? []).some((i) => i.status === "overdue");
+    const { installments: _i, ...rest } = r;
+    return { ...rest, has_overdue };
+  });
+
+  if (opts?.overdueOnly) return rows.filter((r) => r.has_overdue);
+  return rows;
 }
 
 /** One record with all its children. Null if not found / not owned. */
@@ -51,7 +65,8 @@ export async function getRecord(id: string): Promise<RecordDetail | null> {
        installments:debt_note_installments(*),
        payments:debt_note_payments(*),
        reminders:debt_note_reminders(*),
-       agreements:debt_note_agreements(*)`,
+       agreements:debt_note_agreements(*),
+       proofs:debt_note_proof_submissions(*)`,
     )
     .eq("id", id)
     .maybeSingle();
@@ -66,6 +81,9 @@ export async function getRecord(id: string): Promise<RecordDetail | null> {
   );
   rec.agreements = [...(rec.agreements ?? [])].sort((a, b) =>
     b.created_at.localeCompare(a.created_at),
+  );
+  rec.proofs = [...(rec.proofs ?? [])].sort((a, b) =>
+    b.submitted_at.localeCompare(a.submitted_at),
   );
   return rec;
 }

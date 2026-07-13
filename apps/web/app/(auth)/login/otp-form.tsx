@@ -12,7 +12,7 @@ type Step = "email" | "code";
 export function OtpLoginForm() {
   const router = useRouter();
   const params = useSearchParams();
-  const next = params.get("next") || "/app";
+  const next = params.get("next") || "/dashboard";
 
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");

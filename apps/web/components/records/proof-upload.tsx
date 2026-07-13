@@ -32,7 +32,7 @@ export function ProofUpload({ recordId }: { recordId: string }) {
       const userId = (await supabase.auth.getUser()).data.user?.id;
       if (!userId) {
         setPending(false);
-        setError("Session expired — please sign in again.");
+        setError("Couldn't refresh your session — please sign in again.");
         return;
       }
 

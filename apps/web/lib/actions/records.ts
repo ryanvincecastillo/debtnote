@@ -35,8 +35,8 @@ export async function createRecord(input: CreateRecordInput): Promise<ActionResu
     });
     if (error) return fail(error);
 
-    revalidatePath("/app/records");
-    revalidatePath("/app");
+    revalidatePath("/records");
+    revalidatePath("/dashboard");
     return { ok: true, data: { id: data as string } };
   } catch (e) {
     return fail(e);
@@ -63,9 +63,9 @@ export async function recordPayment(input: {
     });
     if (error) return fail(error);
 
-    revalidatePath(`/app/records/${input.recordId}`);
-    revalidatePath("/app/records");
-    revalidatePath("/app");
+    revalidatePath(`/records/${input.recordId}`);
+    revalidatePath("/records");
+    revalidatePath("/dashboard");
     return { ok: true };
   } catch (e) {
     return fail(e);
@@ -81,8 +81,8 @@ export async function cancelRecord(recordId: string): Promise<ActionResult> {
       .update({ status: "cancelled" })
       .eq("id", recordId);
     if (error) return fail(error);
-    revalidatePath(`/app/records/${recordId}`);
-    revalidatePath("/app/records");
+    revalidatePath(`/records/${recordId}`);
+    revalidatePath("/records");
     return { ok: true };
   } catch (e) {
     return fail(e);

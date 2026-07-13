@@ -47,7 +47,7 @@ export async function createPool(input: {
       if (memErr) return fail(memErr);
     }
 
-    revalidatePath("/app/paluwagan");
+    revalidatePath("/paluwagan");
     return { ok: true, data: { id: pool.id as string } };
   } catch (e) {
     return fail(e);
@@ -84,7 +84,7 @@ export async function advanceCycle(poolId: string): Promise<ActionResult> {
       .eq("id", poolId);
     if (upErr) return fail(upErr);
 
-    revalidatePath("/app/paluwagan");
+    revalidatePath("/paluwagan");
     return { ok: true };
   } catch (e) {
     return fail(e);

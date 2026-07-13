@@ -56,7 +56,7 @@ export default async function RemindersPage() {
           title="No reminders scheduled"
           description="Open any record's detail page to schedule a reminder in your chosen tone."
           action={
-            <Link href="/app/records" className={buttonClasses({ variant: "primary" })}>
+            <Link href="/records" className={buttonClasses({ variant: "primary" })}>
               Go to records
             </Link>
           }
@@ -80,7 +80,7 @@ export default async function RemindersPage() {
                 <TD>
                   {r.record ? (
                     <Link
-                      href={`/app/records/${r.record.id}`}
+                      href={`/records/${r.record.id}`}
                       className="font-medium text-paper hover:text-blood"
                     >
                       {r.record.title}

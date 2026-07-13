@@ -20,15 +20,20 @@ import { RecordPaymentForm } from "@/components/records/record-payment-form";
 import { ScheduleReminderForm } from "@/components/records/schedule-reminder-form";
 import { CreateAgreementPanel } from "@/components/records/create-agreement-panel";
 import { ProofUpload } from "@/components/records/proof-upload";
+import { ProofReviewList } from "@/components/records/proof-review";
 import { CancelRecordButton } from "@/components/records/cancel-record-button";
 import { CopyLinkButton } from "@/components/records/copy-link-button";
 
 export default async function RecordDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ [k: string]: string | undefined }>;
 }) {
   const { id } = await params;
+  const sp = await searchParams;
+  const autoFocusPay = sp.pay === "1";
   const rec = await getRecord(id);
   if (!rec) notFound();
 
@@ -44,7 +49,7 @@ export default async function RecordDetailPage({
     <div>
       <div className="mb-4">
         <Link
-          href="/app/records"
+          href="/records"
           className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-paper"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -54,7 +59,18 @@ export default async function RecordDetailPage({
 
       <PageHeader
         title={rec.title}
-        subtitle={rec.contact ? `With ${rec.contact.name}` : "No contact linked"}
+        subtitle={
+          rec.contact ? (
+            <>
+              With{" "}
+              <Link href={`/contacts/${rec.contact.id}`} className="text-paper hover:text-blood">
+                {rec.contact.name}
+              </Link>
+            </>
+          ) : (
+            "No contact linked"
+          )
+        }
         action={
           <div className="flex items-center gap-2">
             <DirectionBadge direction={rec.direction} />
@@ -242,7 +258,11 @@ export default async function RecordDetailPage({
         <div className="space-y-6">
           {rec.status === "active" ? (
             <>
-              <RecordPaymentForm recordId={rec.id} installments={rec.installments} />
+              <RecordPaymentForm
+                recordId={rec.id}
+                installments={rec.installments}
+                autoFocusPay={autoFocusPay}
+              />
               <ScheduleReminderForm
                 recordId={rec.id}
                 defaultTone={profile?.default_tone}
@@ -253,6 +273,7 @@ export default async function RecordDetailPage({
               />
               <CreateAgreementPanel recordId={rec.id} defaultBorrowerName={borrowerName} />
               <ProofUpload recordId={rec.id} />
+              <ProofReviewList recordId={rec.id} proofs={rec.proofs ?? []} />
 
               <Card className="border-blood/30">
                 <CardHeader className="border-blood/20">

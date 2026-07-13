@@ -3,6 +3,7 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { createRecord } from "@/lib/actions/records";
+import { createContact } from "@/lib/actions/contacts";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Textarea, Select } from "@/components/ui/field";
@@ -21,9 +22,10 @@ function todayStr() {
   return new Date().toISOString().slice(0, 10);
 }
 
-export function NewRecordForm({ contacts }: { contacts: Contact[] }) {
+export function NewRecordForm({ contacts: initialContacts }: { contacts: Contact[] }) {
   const router = useRouter();
 
+  const [contacts, setContacts] = React.useState(initialContacts);
   const [direction, setDirection] = React.useState<Direction>("receivable");
   const [title, setTitle] = React.useState("");
   const [principal, setPrincipal] = React.useState("");
@@ -32,6 +34,9 @@ export function NewRecordForm({ contacts }: { contacts: Contact[] }) {
   const [startDate, setStartDate] = React.useState(todayStr());
   const [contactId, setContactId] = React.useState("");
   const [notes, setNotes] = React.useState("");
+  const [addingContact, setAddingContact] = React.useState(false);
+  const [newContactName, setNewContactName] = React.useState("");
+  const [newContactPhone, setNewContactPhone] = React.useState("");
 
   const [pending, setPending] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -76,7 +81,7 @@ export function NewRecordForm({ contacts }: { contacts: Contact[] }) {
       setError(res.error);
       return;
     }
-    router.push(`/app/records/${res.data!.id}`);
+    router.push(`/records/${res.data!.id}`);
   }
 
   const segments: { value: Direction; label: string; hint: string; activeCls: string }[] = [
@@ -207,6 +212,79 @@ export function NewRecordForm({ contacts }: { contacts: Contact[] }) {
                   </option>
                 ))}
               </Select>
+              {!addingContact ? (
+                <button
+                  type="button"
+                  className="mt-2 text-sm text-blood hover:underline"
+                  onClick={() => setAddingContact(true)}
+                >
+                  + New contact
+                </button>
+              ) : (
+                <div className="mt-3 space-y-2 rounded-xl border border-border bg-elevated p-3">
+                  <Input
+                    placeholder="Contact name"
+                    value={newContactName}
+                    onChange={(e) => setNewContactName(e.target.value)}
+                    autoFocus
+                  />
+                  <Input
+                    placeholder="Phone (optional)"
+                    value={newContactPhone}
+                    onChange={(e) => setNewContactPhone(e.target.value)}
+                  />
+                  <div className="flex gap-2">
+                    <Button
+                      type="button"
+                      size="sm"
+                      disabled={pending}
+                      onClick={async () => {
+                        if (!newContactName.trim()) {
+                          setError("Contact name is required.");
+                          return;
+                        }
+                        setPending(true);
+                        setError(null);
+                        const res = await createContact({
+                          name: newContactName.trim(),
+                          phone: newContactPhone.trim() || null,
+                        });
+                        setPending(false);
+                        if (!res.ok) {
+                          setError(res.error);
+                          return;
+                        }
+                        const created = {
+                          id: res.data!.id,
+                          name: newContactName.trim(),
+                          phone: newContactPhone.trim() || null,
+                          email: null,
+                          notes: null,
+                        } as Contact;
+                        setContacts((prev) => [created, ...prev]);
+                        setContactId(created.id);
+                        setAddingContact(false);
+                        setNewContactName("");
+                        setNewContactPhone("");
+                      }}
+                    >
+                      Save contact
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => {
+                        setAddingContact(false);
+                        setNewContactName("");
+                        setNewContactPhone("");
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              )}
             </Field>
           </div>
 
@@ -229,7 +307,7 @@ export function NewRecordForm({ contacts }: { contacts: Contact[] }) {
               type="button"
               variant="ghost"
               disabled={pending}
-              onClick={() => router.push("/app/records")}
+              onClick={() => router.push("/records")}
             >
               Cancel
             </Button>

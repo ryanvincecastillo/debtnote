@@ -28,7 +28,7 @@ export async function createAgreement(input: {
       .single();
     if (error) return fail(error);
 
-    revalidatePath(`/app/records/${input.recordId}`);
+    revalidatePath(`/records/${input.recordId}`);
     return { ok: true, data: { token: data.public_token as string } };
   } catch (e) {
     return fail(e);

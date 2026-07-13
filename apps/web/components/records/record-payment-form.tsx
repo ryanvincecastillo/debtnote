@@ -8,23 +8,43 @@ import { Button } from "@/components/ui/button";
 import { Field, Input, Textarea, Select } from "@/components/ui/field";
 import { peso, formatDate } from "@/lib/format";
 import { INSTALLMENT_STATUS_LABEL } from "@/lib/constants";
+import { useToast } from "@/components/ui/toast";
 import type { Installment } from "@/lib/types";
 
 export function RecordPaymentForm({
   recordId,
   installments,
+  autoFocusPay = false,
 }: {
   recordId: string;
   installments: Installment[];
+  autoFocusPay?: boolean;
 }) {
   const router = useRouter();
-  const [amount, setAmount] = React.useState("");
-  const [installmentId, setInstallmentId] = React.useState("");
+  const toast = useToast();
+  const payable = installments.filter((i) => i.status === "pending" || i.status === "overdue");
+  const nextDue =
+    payable.find((i) => i.status === "overdue") ??
+    [...payable].sort((a, b) => a.due_date.localeCompare(b.due_date))[0] ??
+    null;
+
+  const [amount, setAmount] = React.useState(nextDue ? String(nextDue.amount) : "");
+  const [installmentId, setInstallmentId] = React.useState(nextDue?.id ?? "");
   const [notes, setNotes] = React.useState("");
   const [pending, setPending] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const amountRef = React.useRef<HTMLInputElement>(null);
 
-  const payable = installments.filter((i) => i.status === "pending" || i.status === "overdue");
+  React.useEffect(() => {
+    if (autoFocusPay) amountRef.current?.focus();
+  }, [autoFocusPay]);
+
+  function applyNext() {
+    if (!nextDue) return;
+    setInstallmentId(nextDue.id);
+    setAmount(String(nextDue.amount));
+    amountRef.current?.focus();
+  }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -44,23 +64,31 @@ export function RecordPaymentForm({
     setPending(false);
     if (!res.ok) {
       setError(res.error);
+      toast.error(res.error);
       return;
     }
-    setAmount("");
+    setAmount(nextDue && nextDue.id !== installmentId ? String(nextDue.amount) : "");
     setInstallmentId("");
     setNotes("");
+    toast.success("Payment logged");
     router.refresh();
   }
 
   return (
-    <Card>
-      <CardHeader>
+    <Card id="pay">
+      <CardHeader className="flex flex-row items-center justify-between gap-2">
         <CardTitle>Record a payment</CardTitle>
+        {nextDue ? (
+          <Button type="button" size="sm" variant="outline" onClick={applyNext}>
+            Pay next ({peso(nextDue.amount)})
+          </Button>
+        ) : null}
       </CardHeader>
       <CardContent>
         <form onSubmit={onSubmit} className="space-y-4">
           <Field label="Amount" htmlFor="pay-amount" required>
             <Input
+              ref={amountRef}
               id="pay-amount"
               type="number"
               inputMode="decimal"
@@ -82,7 +110,12 @@ export function RecordPaymentForm({
               <Select
                 id="pay-installment"
                 value={installmentId}
-                onChange={(e) => setInstallmentId(e.target.value)}
+                onChange={(e) => {
+                  const id = e.target.value;
+                  setInstallmentId(id);
+                  const match = payable.find((i) => i.id === id);
+                  if (match) setAmount(String(match.amount));
+                }}
               >
                 <option value="">— balance (no specific installment) —</option>
                 {payable.map((i) => (

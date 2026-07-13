@@ -1,8 +1,21 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+const PROTECTED_PREFIXES = [
+  "/dashboard",
+  "/records",
+  "/contacts",
+  "/reminders",
+  "/paluwagan",
+  "/settings",
+];
+
+function isProtectedPath(path: string) {
+  return PROTECTED_PREFIXES.some((p) => path === p || path.startsWith(p + "/"));
+}
+
 /**
- * Refreshes the Supabase auth session on every request and gates the /app area.
+ * Refreshes the Supabase auth session on every request and gates the app area.
  * Follows the official @supabase/ssr middleware pattern.
  */
 export async function updateSession(request: NextRequest) {
@@ -32,9 +45,8 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const path = request.nextUrl.pathname;
-  const isProtected = path === "/app" || path.startsWith("/app/");
 
-  if (isProtected && !user) {
+  if (isProtectedPath(path) && !user) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     url.searchParams.set("next", path);
@@ -43,7 +55,7 @@ export async function updateSession(request: NextRequest) {
 
   if ((path === "/login" || path === "/signup") && user) {
     const url = request.nextUrl.clone();
-    url.pathname = "/app";
+    url.pathname = "/dashboard";
     url.search = "";
     return copyCookies(response, NextResponse.redirect(url));
   }

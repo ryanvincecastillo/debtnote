@@ -22,7 +22,7 @@ export async function updateProfile(input: {
       })
       .eq("id", user.id);
     if (error) return fail(error);
-    revalidatePath("/app/settings");
+    revalidatePath("/settings");
     return { ok: true };
   } catch (e) {
     return fail(e);

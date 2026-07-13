@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Users, Pencil, Trash2, Plus, X } from "lucide-react";
 import type { Contact } from "@/lib/types";
@@ -10,14 +11,17 @@ import { Button } from "@/components/ui/button";
 import { Field, Input, Textarea } from "@/components/ui/field";
 import { Badge } from "@/components/ui/badge";
 import { Table, THead, TBody, TR, TH, TD, EmptyState } from "@/components/ui/data-table";
+import { useToast } from "@/components/ui/toast";
 
 type ContactWithCount = Contact & { record_count: number };
 
 export function ContactsManager({ initialContacts }: { initialContacts: ContactWithCount[] }) {
   const router = useRouter();
+  const toast = useToast();
   const [formOpen, setFormOpen] = React.useState(false);
   const [editing, setEditing] = React.useState<ContactWithCount | null>(null);
   const [deletingId, setDeletingId] = React.useState<string | null>(null);
+  const [confirmDelete, setConfirmDelete] = React.useState<ContactWithCount | null>(null);
 
   function openAdd() {
     setEditing(null);
@@ -35,20 +39,15 @@ export function ContactsManager({ initialContacts }: { initialContacts: ContactW
   }
 
   async function handleDelete(contact: ContactWithCount) {
-    const ok = window.confirm(
-      `Delete "${contact.name}"? This can't be undone.` +
-        (contact.record_count > 0
-          ? ` Ito ay naka-link sa ${contact.record_count} record(s).`
-          : ""),
-    );
-    if (!ok) return;
     setDeletingId(contact.id);
     const res = await deleteContact(contact.id);
     setDeletingId(null);
+    setConfirmDelete(null);
     if (!res.ok) {
-      window.alert(res.error);
+      toast.error(res.error);
       return;
     }
+    toast.success(`Deleted ${contact.name}`);
     router.refresh();
   }
 
@@ -72,9 +71,37 @@ export function ContactsManager({ initialContacts }: { initialContacts: ContactW
           onClose={closeForm}
           onSaved={() => {
             closeForm();
+            toast.success(editing ? "Contact updated" : "Contact added");
             router.refresh();
           }}
         />
+      ) : null}
+
+      {confirmDelete ? (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4">
+          <div className="w-full max-w-sm rounded-2xl border border-border bg-surface p-5">
+            <h2 className="text-lg font-semibold text-paper">Delete contact?</h2>
+            <p className="mt-2 text-sm text-muted">
+              Delete “{confirmDelete.name}”? This can&apos;t be undone.
+              {confirmDelete.record_count > 0
+                ? ` Linked to ${confirmDelete.record_count} record(s).`
+                : ""}
+            </p>
+            <div className="mt-4 flex gap-2">
+              <Button
+                variant="danger"
+                size="sm"
+                disabled={deletingId === confirmDelete.id}
+                onClick={() => handleDelete(confirmDelete)}
+              >
+                {deletingId === confirmDelete.id ? "Deleting…" : "Delete"}
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => setConfirmDelete(null)}>
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </div>
       ) : null}
 
       {initialContacts.length === 0 ? (
@@ -103,7 +130,11 @@ export function ContactsManager({ initialContacts }: { initialContacts: ContactW
           <TBody>
             {initialContacts.map((contact) => (
               <TR key={contact.id}>
-                <TD className="font-medium text-paper">{contact.name}</TD>
+                <TD className="font-medium text-paper">
+                  <Link href={`/contacts/${contact.id}`} className="hover:text-blood">
+                    {contact.name}
+                  </Link>
+                </TD>
                 <TD className="tnum text-muted">{contact.phone || "—"}</TD>
                 <TD className="text-muted">{contact.email || "—"}</TD>
                 <TD>
@@ -127,12 +158,11 @@ export function ContactsManager({ initialContacts }: { initialContacts: ContactW
                     <Button
                       variant="danger"
                       size="sm"
-                      onClick={() => handleDelete(contact)}
-                      disabled={deletingId === contact.id}
+                      onClick={() => setConfirmDelete(contact)}
                       aria-label={`Delete ${contact.name}`}
                     >
                       <Trash2 className="size-4" />
-                      {deletingId === contact.id ? "Deleting…" : "Delete"}
+                      Delete
                     </Button>
                   </div>
                 </TD>

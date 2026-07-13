@@ -29,7 +29,7 @@ export async function createContact(input: ContactInput): Promise<ActionResult<{
       .single();
     if (error) return fail(error);
 
-    revalidatePath("/app/contacts");
+    revalidatePath("/contacts");
     return { ok: true, data: { id: data.id as string } };
   } catch (e) {
     return fail(e);
@@ -52,7 +52,8 @@ export async function updateContact(id: string, input: ContactInput): Promise<Ac
       .eq("id", id);
     if (error) return fail(error);
 
-    revalidatePath("/app/contacts");
+    revalidatePath("/contacts");
+    revalidatePath(`/contacts/${id}`);
     return { ok: true };
   } catch (e) {
     return fail(e);
@@ -64,7 +65,8 @@ export async function deleteContact(id: string): Promise<ActionResult> {
     const { supabase } = await actionContext();
     const { error } = await supabase.from("debt_note_contacts").delete().eq("id", id);
     if (error) return fail(error);
-    revalidatePath("/app/contacts");
+    revalidatePath("/contacts");
+    revalidatePath(`/contacts/${id}`);
     return { ok: true };
   } catch (e) {
     return fail(e);

@@ -23,8 +23,8 @@ export async function scheduleReminder(input: {
       status: "pending",
     });
     if (error) return fail(error);
-    revalidatePath(`/app/records/${input.recordId}`);
-    revalidatePath("/app/reminders");
+    revalidatePath(`/records/${input.recordId}`);
+    revalidatePath("/reminders");
     return { ok: true };
   } catch (e) {
     return fail(e);
@@ -39,7 +39,7 @@ export async function cancelReminder(id: string): Promise<ActionResult> {
       .update({ status: "cancelled" })
       .eq("id", id);
     if (error) return fail(error);
-    revalidatePath("/app/reminders");
+    revalidatePath("/reminders");
     return { ok: true };
   } catch (e) {
     return fail(e);
