@@ -74,7 +74,8 @@ Open http://localhost:3000 — marketing landing at `/`, sign in at `/login` (em
   - `supabase functions deploy debt-note-process-reminder-queue --no-verify-jwt`
   - `supabase functions deploy debt-note-notify-lender --no-verify-jwt`
   - `supabase functions deploy debt-note-delete-account --no-verify-jwt`
-- **Cron (Vercel):** [`apps/web/vercel.json`](apps/web/vercel.json) — every 5 min `/api/cron/process-reminders`, daily 01:00 UTC `/api/cron/overdue-digest`. Set `CRON_SECRET` and `DEBTNOTE_EDGE_SECRET` in Vercel env (match Supabase secrets for the edge secret).
+- **Cron (Vercel Hobby):** [`apps/web/vercel.json`](apps/web/vercel.json) — daily `/api/cron/process-reminders` (00:00 UTC) and `/api/cron/overdue-digest` (01:00 UTC). Set `CRON_SECRET` and `DEBTNOTE_EDGE_SECRET` in Vercel env.
+- **Reminder queue (timely):** GitHub Action [`.github/workflows/process-reminders.yml`](.github/workflows/process-reminders.yml) every 5 minutes — add repo secrets `SUPABASE_URL` + `DEBTNOTE_EDGE_SECRET`.
 
 ## Docs
 

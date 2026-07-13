@@ -1,0 +1,26 @@
+# Hobby Vercel only allows daily cron. This keeps reminders timely.
+name: Process DebtNote reminder queue
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Drain reminder queue
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          DEBTNOTE_EDGE_SECRET: ${{ secrets.DEBTNOTE_EDGE_SECRET }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$DEBTNOTE_EDGE_SECRET" ]; then
+            echo "Missing SUPABASE_URL or DEBTNOTE_EDGE_SECRET repo secrets — skipping."
+            exit 0
+          fi
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $DEBTNOTE_EDGE_SECRET" \
+            -H "Content-Type: application/json" \
+            -d '{}' \
+            "$SUPABASE_URL/functions/v1/debt-note-process-reminder-queue"
