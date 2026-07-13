@@ -38,6 +38,17 @@ Deno.serve(async (req) => {
   }
 
   const app = resolveAuthApp(body);
+  console.log(
+    JSON.stringify({
+      resolved_app: app,
+      redirect_to: body.email_data.redirect_to,
+      site_url: body.email_data.site_url,
+      meta_app: body.user.user_metadata?.app ?? null,
+      meta_app_origin: body.user.user_metadata?.app_origin ?? null,
+      email_action_type: body.email_data.email_action_type,
+      to: body.user.email,
+    }),
+  );
   const action = body.email_data.email_action_type ?? "email";
   const token = body.email_data.token;
   const html = renderAuthEmailHtml(app, token, action);

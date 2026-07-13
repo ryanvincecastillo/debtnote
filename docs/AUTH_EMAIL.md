@@ -20,13 +20,20 @@ emailRedirectTo: 'debtnote://login-callback',
 
 ## Web (`apps/web`)
 
-Same rule — pass DebtNote markers or the hook defaults to InaanApp:
+OTP is code-based (no magic-link navigation). Pass the same allowlisted deep link
+mobile uses so the hook always sees `debtnote` in `redirect_to` — even when
+`NEXT_PUBLIC_APP_URL` is a Vercel hostname that is not on the Auth allow list:
 
 ```ts
-emailRedirectTo: `${NEXT_PUBLIC_APP_URL}/login`,
+emailRedirectTo: 'debtnote://login-callback',
 data: { app: 'debtnote', app_origin: 'debtnote' },
 ```
 
+Do **not** rely on `https://debtnote-app.vercel.app/...` for branding unless that
+exact origin is in Supabase Auth → Redirect URLs. If GoTrue rejects the redirect,
+it substitutes the shared project Site URL (often InaanApp) and the wrong
+template is sent. For existing users, `data.app` is also **not** updated on
+repeat OTP — `redirect_to` is the reliable signal.
 Supabase project redirect allow list must include:
 
 - `debtnote://login-callback`

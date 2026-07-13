@@ -27,14 +27,18 @@ export function OtpLoginForm() {
     setError(null);
     const supabase = createClient();
     // Shared Supabase project: Send Email Hook routes branding by redirect_to
-    // (preferred) then user_metadata.app. Without these, OTP falls back to InaanApp.
-    const appUrl =
-      process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") || window.location.origin;
+    // first, then user_metadata.app. Default is InaanApp.
+    //
+    // Use the allowlisted debtnote:// callback (same as mobile) — not
+    // NEXT_PUBLIC_APP_URL. The baked Vercel URL is often not on the Auth
+    // redirect allow list, so GoTrue replaces redirect_to with the shared
+    // Site URL (InaanApp) and branding breaks. OTP is code-based; we never
+    // navigate to this redirect.
     const { error } = await supabase.auth.signInWithOtp({
       email: email.trim(),
       options: {
         shouldCreateUser: true,
-        emailRedirectTo: `${appUrl}/login`,
+        emailRedirectTo: "debtnote://login-callback",
         data: { app: "debtnote", app_origin: "debtnote" },
       },
     });
