@@ -19,8 +19,12 @@ export const metadata: Metadata = {
   description:
     "Personal utang/pautang collection for Filipinos. Dual ledger, automated email nudges, signed promissory agreements, and paluwagan pools.",
   icons: {
-    icon: [{ url: "/debtnote-app.png", type: "image/png" }],
-    apple: [{ url: "/debtnote-app.png", type: "image/png" }],
+    icon: [
+      { url: "/debtnote-icon.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
     title: "DebtNote",
