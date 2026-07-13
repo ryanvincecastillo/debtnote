@@ -34,7 +34,7 @@ export function LandingNav() {
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
         <Link href="/" className="flex items-center" aria-label="DebtNote home">
-          <DNWordmark mono className="text-xl" />
+          <DNWordmark className="text-xl" />
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">

@@ -32,7 +32,7 @@ export function AgreementGuestView({ token }: { token: string }) {
     setHasDrawn(true);
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    ctx.strokeStyle = "#ff6c37";
+    ctx.strokeStyle = "#fafafa";
     ctx.lineWidth = 2;
     ctx.lineCap = "round";
     const rect = canvas.getBoundingClientRect();

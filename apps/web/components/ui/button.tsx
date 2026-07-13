@@ -8,11 +8,12 @@ const base =
   "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-accent text-paper hover:bg-accent-bright glow-accent-hover",
-  /** Landing / marketing CTA — white on black */
+  /** Solid white CTA on dark surfaces */
+  primary: "bg-white text-zinc-950 hover:bg-zinc-100",
+  /** Alias kept for landing call sites */
   inverse: "bg-white text-zinc-950 hover:bg-zinc-100",
   outline:
-    "border border-border-strong bg-transparent text-paper hover:border-paper/40 hover:bg-elevated",
+    "border border-border-strong bg-transparent text-paper hover:border-paper/50 hover:bg-elevated",
   ghost: "text-muted hover:text-paper hover:bg-elevated",
   danger: "border border-danger/40 text-danger hover:bg-danger/10",
 };

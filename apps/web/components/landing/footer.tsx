@@ -27,7 +27,7 @@ export function LandingFooter() {
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
-            <DNWordmark mono className="text-xl" />
+            <DNWordmark className="text-xl" />
             <p
               className="mt-4 max-w-xs text-sm text-zinc-400"
               style={{ fontFamily: "var(--font-crimson), serif" }}

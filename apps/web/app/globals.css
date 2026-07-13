@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  /* Cursor × Resend — dark product surfaces */
+  /* Black & white product surfaces */
   --background: #09090b;
   --foreground: #e4e4e7;
   --paper: #fafafa; /* headings / emphasis */
-  --accent: #ff6c37; /* primary brand CTA (Resend-like orange) */
-  --accent-bright: #ff8255;
+  --accent: #fafafa; /* brand / interactive — white */
+  --accent-bright: #ffffff;
   --danger: #f43f5e; /* overdue / delete / errors — not brand */
-  --gold: #f59e0b; /* paid tier / "coming soon" */
+  --gold: #a1a1aa; /* muted metal for “coming soon” etc. */
 
   /* Surfaces */
   --surface: #111113;
@@ -18,7 +18,7 @@
   --muted: rgba(161, 161, 170, 0.95);
   --faint: rgba(113, 113, 122, 0.95);
 
-  /* Ledger semantics (unchanged meaning) */
+  /* Ledger semantics (keep meaning clear) */
   --receivable: #34d399; /* pautang — money owed to you */
   --payable: #fbbf24; /* utang — money you owe */
 }
@@ -62,12 +62,12 @@ body {
   background-size: 100% 32px;
 }
 
-/* Quiet accent glow (not the old red bloom) */
+/* Quiet white wash */
 .glow-accent {
-  box-shadow: 0 0 40px rgba(255, 108, 55, 0.12);
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.06);
 }
 .glow-accent-hover:hover {
-  box-shadow: 0 0 28px rgba(255, 108, 55, 0.22);
+  box-shadow: 0 0 28px rgba(255, 255, 255, 0.12);
 }
 
 /* Tabular figures for money */

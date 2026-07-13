@@ -230,7 +230,7 @@ export function AppShell({
             aria-expanded={fabOpen}
             onClick={() => setFabOpen((v) => !v)}
             className={cn(
-              "flex h-14 w-14 items-center justify-center rounded-full bg-accent text-paper shadow-lg glow-accent-hover transition-transform",
+              "flex h-14 w-14 items-center justify-center rounded-full bg-white text-zinc-950 shadow-lg glow-accent-hover transition-transform",
               fabOpen && "rotate-45",
             )}
           >
