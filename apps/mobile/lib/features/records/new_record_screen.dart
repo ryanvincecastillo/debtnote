@@ -15,7 +15,6 @@ class _NewRecordScreenState extends State<NewRecordScreen> {
   final _titleCtrl = TextEditingController();
   final _amountCtrl = TextEditingController();
   final _installmentsCtrl = TextEditingController(text: '1');
-  String _direction = 'receivable';
   String _scheduleType = 'one_time';
   String? _contactId;
   List<DebtNoteContact> _contacts = [];
@@ -39,7 +38,7 @@ class _NewRecordScreenState extends State<NewRecordScreen> {
     try {
       await debtNoteRepo.createRecordWithSchedule(
         contactId: _contactId,
-        direction: _direction,
+        direction: 'receivable',
         title: _titleCtrl.text.trim(),
         principal: amount,
         scheduleType: _scheduleType,
@@ -65,14 +64,18 @@ class _NewRecordScreenState extends State<NewRecordScreen> {
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(labelText: 'Amount (₱)'),
           ),
-          const SizedBox(height: 16),
-          SegmentedButton<String>(
-            segments: const [
-              ButtonSegment(value: 'receivable', label: Text('Pautang')),
-              ButtonSegment(value: 'payable', label: Text('Utang')),
-            ],
-            selected: {_direction},
-            onSelectionChanged: (s) => setState(() => _direction = s.first),
+          const SizedBox(height: 12),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              border: Border.all(color: DNTheme.success.withOpacity(0.4)),
+              color: DNTheme.success.withOpacity(0.08),
+            ),
+            child: const Text(
+              'Collection record — money owed to you.',
+              style: TextStyle(color: DNTheme.success, fontSize: 13),
+            ),
           ),
           const SizedBox(height: 16),
           DropdownButtonFormField<String>(

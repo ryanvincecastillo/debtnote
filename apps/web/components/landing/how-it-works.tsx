@@ -7,7 +7,7 @@ const STEPS = [
     step: "01",
     title: "Add a record",
     body:
-      "Isulat ang pangalan at halaga. Choose pautang or utang, set a schedule — one-time, salary-period, or paluwagan — and DebtNote does the math.",
+      "Isulat ang pangalan at halaga. Set a schedule — one-time, salary-period, or paluwagan — and DebtNote does the math.",
   },
   {
     icon: Send,

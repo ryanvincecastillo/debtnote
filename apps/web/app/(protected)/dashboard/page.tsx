@@ -1,7 +1,6 @@
 import Link from "next/link";
 import {
   Wallet,
-  HandCoins,
   FileText,
   AlertTriangle,
   Notebook,
@@ -12,7 +11,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { StatCard } from "@/components/ui/card";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { buttonClasses } from "@/components/ui/button";
-import { Money, DirectionBadge } from "@/components/ui/money";
+import { Money } from "@/components/ui/money";
 import { StatusBadge } from "@/components/ui/badge";
 import { peso, formatDate } from "@/lib/format";
 import { RECORD_STATUS_LABEL, INSTALLMENT_STATUS_LABEL } from "@/lib/constants";
@@ -25,7 +24,7 @@ export default async function DashboardPage() {
     <div>
       <PageHeader
         title="Dashboard"
-        subtitle="Let the notebook do the talking."
+        subtitle="Your collection notebook — let it do the talking."
         action={
           <Link href="/records/new" className={buttonClasses()}>
             New record
@@ -33,20 +32,13 @@ export default async function DashboardPage() {
         }
       />
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <StatCard
           label="Total to collect"
           value={peso(summary.totalReceivable)}
-          sub="Pautang — owed to you"
+          sub="Owed to you"
           tone="receivable"
           icon={<Wallet size={18} />}
-        />
-        <StatCard
-          label="Total you owe"
-          value={peso(summary.totalPayable)}
-          sub="Utang — you owe"
-          tone="payable"
-          icon={<HandCoins size={18} />}
         />
         <Link href="/records?status=active" className="block transition-opacity hover:opacity-90">
           <StatCard
@@ -135,7 +127,7 @@ export default async function DashboardPage() {
           <EmptyState
             icon={<Notebook size={40} strokeWidth={1.5} />}
             title="Wala pang records"
-            description="Simulan mo na — magdagdag ng unang utang o pautang. Demo data is seeded for the owner account after first sign-in."
+            description="Simulan mo na — i-log ang unang collection. The notebook keeps score after that."
             action={
               <Link href="/records/new" className={buttonClasses()}>
                 New record
@@ -158,7 +150,6 @@ export default async function DashboardPage() {
                 <THead>
                   <TR className="hover:bg-transparent">
                     <TH>Record</TH>
-                    <TH>Type</TH>
                     <TH>Contact</TH>
                     <TH className="text-right">Balance</TH>
                     <TH>Status</TH>
@@ -175,9 +166,6 @@ export default async function DashboardPage() {
                           {r.title}
                         </Link>
                       </TD>
-                      <TD>
-                        <DirectionBadge direction={r.direction} />
-                      </TD>
                       <TD className="text-muted">
                         {r.contact ? (
                           <Link href={`/contacts/${r.contact.id}`} className="hover:text-paper">
@@ -188,7 +176,7 @@ export default async function DashboardPage() {
                         )}
                       </TD>
                       <TD className="text-right">
-                        <Money value={r.balance} direction={r.direction} />
+                        <Money value={r.balance} direction="receivable" />
                       </TD>
                       <TD>
                         <StatusBadge

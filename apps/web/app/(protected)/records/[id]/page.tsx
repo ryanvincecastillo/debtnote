@@ -5,7 +5,7 @@ import { getRecord } from "@/lib/data/records";
 import { getProfile } from "@/lib/auth";
 import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardHeader, CardTitle, CardContent, StatCard } from "@/components/ui/card";
-import { Money, DirectionBadge } from "@/components/ui/money";
+import { Money } from "@/components/ui/money";
 import { StatusBadge, Badge } from "@/components/ui/badge";
 import { Table, THead, TBody, TR, TH, TD, EmptyState } from "@/components/ui/data-table";
 import { buttonClasses } from "@/components/ui/button";
@@ -22,7 +22,7 @@ import { CreateAgreementPanel } from "@/components/records/create-agreement-pane
 import { ProofUpload } from "@/components/records/proof-upload";
 import { ProofReviewList } from "@/components/records/proof-review";
 import { CancelRecordButton } from "@/components/records/cancel-record-button";
-import { CopyLinkButton } from "@/components/records/copy-link-button";
+import { ShareAgreementButtons } from "@/components/records/copy-link-button";
 
 export default async function RecordDetailPage({
   params,
@@ -40,6 +40,10 @@ export default async function RecordDetailPage({
   const profile = await getProfile();
 
   const borrowerName = rec.contact?.name ?? "";
+  const debtorEmail =
+    rec.contact?.email?.trim() ||
+    rec.agreements.find((a) => a.borrower_email?.trim())?.borrower_email?.trim() ||
+    null;
   const nextDue =
     rec.installments.find((i) => i.status === "pending" || i.status === "overdue")?.due_date ??
     rec.installments[0]?.due_date ??
@@ -72,10 +76,7 @@ export default async function RecordDetailPage({
           )
         }
         action={
-          <div className="flex items-center gap-2">
-            <DirectionBadge direction={rec.direction} />
-            <StatusBadge status={rec.status} label={RECORD_STATUS_LABEL[rec.status]} />
-          </div>
+          <StatusBadge status={rec.status} label={RECORD_STATUS_LABEL[rec.status]} />
         }
       />
 
@@ -86,8 +87,8 @@ export default async function RecordDetailPage({
             <StatCard label="Principal" value={peso(rec.principal)} />
             <StatCard
               label="Balance"
-              value={<Money value={rec.balance} direction={rec.direction} />}
-              tone={rec.direction === "receivable" ? "receivable" : "payable"}
+              value={<Money value={rec.balance} direction="receivable" />}
+              tone="receivable"
             />
             <StatCard label="Schedule" value={SCHEDULE_LABEL[rec.schedule_type]} />
           </div>
@@ -170,7 +171,7 @@ export default async function RecordDetailPage({
                     <TR key={p.id}>
                       <TD className="text-foreground">{formatDateTime(p.paid_at)}</TD>
                       <TD className="text-right">
-                        <Money value={p.amount} direction={rec.direction} />
+                        <Money value={p.amount} direction="receivable" />
                       </TD>
                       <TD className="text-muted">{p.notes ?? "—"}</TD>
                     </TR>
@@ -245,7 +246,10 @@ export default async function RecordDetailPage({
                           <Badge intent="warn">Pending</Badge>
                         )}
                       </div>
-                      <CopyLinkButton token={ag.public_token} />
+                      <ShareAgreementButtons
+                        token={ag.public_token}
+                        borrowerName={ag.borrower_name}
+                      />
                     </li>
                   ))}
                 </ul>
@@ -267,6 +271,7 @@ export default async function RecordDetailPage({
                 recordId={rec.id}
                 defaultTone={profile?.default_tone}
                 borrowerName={borrowerName}
+                debtorEmail={debtorEmail}
                 amount={rec.balance}
                 title={rec.title}
                 dueDate={nextDue}

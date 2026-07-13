@@ -18,9 +18,9 @@ type Feature = {
 const FEATURES: Feature[] = [
   {
     icon: BookOpenText,
-    title: "One dual ledger",
+    title: "One collection ledger",
     body:
-      "Track pautang (money owed to you) and utang (what you owe) in the same notebook — clear enough that you always know who owes who.",
+      "Track every peso owed to you in one notebook — clear balances, due dates, and who still hasn’t settled.",
   },
   {
     icon: Bell,
@@ -69,7 +69,7 @@ export function Features() {
               className="mt-4 text-3xl text-white sm:text-4xl"
               style={{ fontFamily: "var(--font-crimson), serif" }}
             >
-              Built for how Filipinos actually lend
+              Built for local Filipino lenders
             </h2>
             <p className="mt-4 max-w-lg text-zinc-400">
               Not a bank, not a loan app — just a sharper version of the notebook

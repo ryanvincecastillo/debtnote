@@ -72,8 +72,7 @@ export function RecordsPayPicker({
                   <div className="min-w-0">
                     <p className="truncate font-medium text-paper">{r.title}</p>
                     <p className="truncate text-xs text-muted">
-                      {r.contact?.name ?? "No contact"} ·{" "}
-                      {r.direction === "receivable" ? "Pautang" : "Utang"}
+                      {r.contact?.name ?? "No contact"}
                     </p>
                   </div>
                   <span className="shrink-0 text-sm text-paper">{peso(r.balance)}</span>

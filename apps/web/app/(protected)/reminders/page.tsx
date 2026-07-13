@@ -11,7 +11,6 @@ import {
   EmptyState,
 } from "@/components/ui/data-table";
 import { StatusBadge } from "@/components/ui/badge";
-import { DirectionBadge } from "@/components/ui/money";
 import { buttonClasses } from "@/components/ui/button";
 import { listReminders } from "@/lib/data/reminders";
 import { REMINDER_STATUS_LABEL } from "@/lib/constants";
@@ -32,7 +31,7 @@ export default async function RemindersPage() {
     <div>
       <PageHeader
         title="Reminders"
-        subtitle="Schedule warm nudges so the notebook follows up for you."
+        subtitle="Email nudges to debtors who have an email — or share the agreement link if they don’t."
       />
 
       <div className="mb-8">
@@ -66,7 +65,6 @@ export default async function RemindersPage() {
           <THead>
             <TR>
               <TH>Record</TH>
-              <TH>Direction</TH>
               <TH>Tone</TH>
               <TH>Scheduled</TH>
               <TH>Channel</TH>
@@ -88,9 +86,6 @@ export default async function RemindersPage() {
                   ) : (
                     <span className="text-faint">Record removed</span>
                   )}
-                </TD>
-                <TD>
-                  {r.record ? <DirectionBadge direction={r.record.direction} /> : "—"}
                 </TD>
                 <TD className="text-muted">{toneLabel(r.tone)}</TD>
                 <TD className="tnum text-muted">{formatDateTime(r.scheduled_at)}</TD>

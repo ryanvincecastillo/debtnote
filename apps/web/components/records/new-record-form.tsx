@@ -8,8 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Textarea, Select } from "@/components/ui/field";
 import { SCHEDULE_OPTIONS } from "@/lib/constants";
-import { cn } from "@/lib/utils";
-import type { Contact, Direction, ScheduleType } from "@/lib/types";
+import type { Contact, ScheduleType } from "@/lib/types";
 
 const MULTI_INSTALLMENT: ScheduleType[] = [
   "daily",
@@ -26,7 +25,6 @@ export function NewRecordForm({ contacts: initialContacts }: { contacts: Contact
   const router = useRouter();
 
   const [contacts, setContacts] = React.useState(initialContacts);
-  const [direction, setDirection] = React.useState<Direction>("receivable");
   const [title, setTitle] = React.useState("");
   const [principal, setPrincipal] = React.useState("");
   const [scheduleType, setScheduleType] = React.useState<ScheduleType>("one_time");
@@ -66,7 +64,7 @@ export function NewRecordForm({ contacts: initialContacts }: { contacts: Contact
 
     setPending(true);
     const res = await createRecord({
-      direction,
+      direction: "receivable",
       title: title.trim(),
       principal: principalNum,
       scheduleType,
@@ -84,48 +82,13 @@ export function NewRecordForm({ contacts: initialContacts }: { contacts: Contact
     router.push(`/records/${res.data!.id}`);
   }
 
-  const segments: { value: Direction; label: string; hint: string; activeCls: string }[] = [
-    {
-      value: "receivable",
-      label: "Pautang",
-      hint: "May utang sa iyo",
-      activeCls: "bg-receivable/15 text-receivable border-receivable/40",
-    },
-    {
-      value: "payable",
-      label: "Utang",
-      hint: "May babayaran ka",
-      activeCls: "bg-payable/15 text-payable border-payable/40",
-    },
-  ];
-
   return (
     <Card>
       <CardContent>
         <form onSubmit={onSubmit} className="space-y-5">
-          <Field label="Direction" required>
-            <div className="grid grid-cols-2 gap-3">
-              {segments.map((s) => {
-                const active = direction === s.value;
-                return (
-                  <button
-                    key={s.value}
-                    type="button"
-                    onClick={() => setDirection(s.value)}
-                    className={cn(
-                      "flex flex-col items-start gap-0.5 rounded-xl border px-4 py-3 text-left transition-colors",
-                      active
-                        ? s.activeCls
-                        : "border-border-strong bg-elevated text-muted hover:text-paper",
-                    )}
-                  >
-                    <span className="text-sm font-semibold">{s.label}</span>
-                    <span className="text-xs opacity-80">{s.hint}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </Field>
+          <p className="rounded-xl border border-receivable/30 bg-receivable/10 px-4 py-3 text-sm text-receivable">
+            Collection record — money owed <span className="font-semibold">to you</span>.
+          </p>
 
           <Field label="Title" htmlFor="title" required>
             <Input

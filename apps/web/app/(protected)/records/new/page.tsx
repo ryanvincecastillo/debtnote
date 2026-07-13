@@ -9,7 +9,7 @@ export default async function NewRecordPage() {
     <div>
       <PageHeader
         title="New record"
-        subtitle="Log a pautang (collect) or utang (pay). The notebook takes it from here."
+        subtitle="Log money owed to you. The notebook takes it from here."
       />
       <div className="max-w-2xl">
         <NewRecordForm contacts={contacts} />

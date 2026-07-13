@@ -55,7 +55,7 @@ export function ContactsManager({ initialContacts }: { initialContacts: ContactW
     <div>
       <PageHeader
         title="Contacts"
-        subtitle="Ang mga taong may utang o pinagkakautangan mo."
+        subtitle="Mga taong may utang sa iyo."
         action={
           <Button variant="primary" size="md" onClick={openAdd}>
             <Plus className="size-4" />

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { Money, DirectionBadge } from "@/components/ui/money";
+import { Money } from "@/components/ui/money";
 import { StatusBadge } from "@/components/ui/badge";
 import { Table, THead, TBody, TR, TH, TD } from "@/components/ui/data-table";
 import { SCHEDULE_LABEL, RECORD_STATUS_LABEL } from "@/lib/constants";
@@ -56,7 +56,6 @@ export function RecordsTable({
           <THead>
             <TR>
               <TH>Title</TH>
-              <TH>Direction</TH>
               <TH>Contact</TH>
               <TH>Schedule</TH>
               <TH className="text-right">Balance</TH>
@@ -76,9 +75,6 @@ export function RecordsTable({
                     ) : null}
                   </Link>
                 </TD>
-                <TD>
-                  <DirectionBadge direction={r.direction} />
-                </TD>
                 <TD className="text-muted">
                   {r.contact ? (
                     <Link href={`/contacts/${r.contact.id}`} className="hover:text-paper">
@@ -90,7 +86,7 @@ export function RecordsTable({
                 </TD>
                 <TD className="text-muted">{SCHEDULE_LABEL[r.schedule_type]}</TD>
                 <TD className="text-right">
-                  <Money value={r.balance} direction={r.direction} />
+                  <Money value={r.balance} direction="receivable" />
                 </TD>
                 <TD>
                   <StatusBadge status={r.status} label={RECORD_STATUS_LABEL[r.status]} />

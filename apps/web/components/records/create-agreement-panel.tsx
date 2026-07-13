@@ -6,7 +6,7 @@ import { createAgreement } from "@/lib/actions/agreements";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/field";
-import { CopyLinkButton } from "@/components/records/copy-link-button";
+import { ShareAgreementButtons } from "@/components/records/copy-link-button";
 
 export function CreateAgreementPanel({
   recordId,
@@ -94,9 +94,9 @@ export function CreateAgreementPanel({
         {token ? (
           <div className="mt-4 rounded-xl border border-receivable/30 bg-receivable/5 p-3">
             <p className="mb-2 text-sm font-medium text-receivable">
-              Agreement ready — share this link:
+              Agreement ready — share this link (WhatsApp works even without email):
             </p>
-            <CopyLinkButton token={token} />
+            <ShareAgreementButtons token={token} borrowerName={borrowerName} />
           </div>
         ) : null}
       </CardContent>

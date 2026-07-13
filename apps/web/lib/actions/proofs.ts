@@ -17,6 +17,9 @@ export async function submitProof(input: {
     if (error) return fail(error);
     revalidatePath(`/records/${input.recordId}`);
     revalidatePath("/reminders");
+    // Lender inbox: proof waiting for review
+    const { notifyLender } = await import("@/lib/notify-lender");
+    void notifyLender({ event: "proof_pending", recordId: input.recordId });
     return { ok: true, data: { id: data as string } };
   } catch (e) {
     return fail(e);

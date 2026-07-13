@@ -122,7 +122,7 @@ export function Hero() {
           </h1>
 
           <p className="mx-auto mt-6 max-w-md text-base leading-relaxed text-zinc-400 lg:mx-0 sm:text-lg">
-            Utang or pautang — write the name, share a signed agreement, and let
+            Collect what’s owed — write the name, share a signed agreement, and let
             the notebook send the nudges. Para hindi ikaw ang masamang tao.
           </p>
 

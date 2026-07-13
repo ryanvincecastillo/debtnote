@@ -1,6 +1,6 @@
 # DebtNote
 
-Personal utang/pautang collection for Filipinos — dual ledger, automated email nudges, signed promissory agreements (guest, no account), tone engine, proof-upload freeze, and paluwagan pools.
+Collection notebook for **local Filipino lenders** — track money owed to you, share signed agreements (WhatsApp-friendly, no debtor account), email nudges when they have email, and lender alerts when someone signs or uploads proof.
 
 ## Monorepo
 
@@ -26,7 +26,7 @@ cd supabase
 supabase db push
 ```
 
-Or run [`supabase/migrations/20260709170000_debt_note_initial.sql`](supabase/migrations/20260709170000_debt_note_initial.sql) manually.
+Or run the SQL under [`supabase/migrations/`](supabase/migrations/) manually.
 
 Seed tenant: `debtnote-dev` in `public.projects`.
 
@@ -49,47 +49,31 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000 — marketing landing at `/`, sign in at `/login` (email OTP), the app at `/dashboard` (also `/records`, `/contacts`, `/reminders`, `/paluwagan`, `/settings`), and the public guest agreement route at `/a/[token]`. Old `/app/*` URLs permanently redirect to the flat routes.
-
-Sessions use the shared Supabase project: JWT ~1h with refresh (no absolute timebox / inactivity timeout), so you stay signed in across visits as long as the refresh cookie is valid. Changing Auth session settings here affects all apps on this project (InaanApp, etc.).
-
-## Environment
-
-| Variable | App | Purpose |
-|----------|-----|---------|
-| `SUPABASE_URL` | mobile | Supabase project URL |
-| `SUPABASE_ANON_KEY` | mobile | Anon key |
-| `APP_PROJECT_ID` | mobile | Tenant slug (`debtnote-dev`) |
-| `NEXT_PUBLIC_SUPABASE_URL` | web | Supabase URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | web | Anon key (auth + guest RPCs) |
-| `SUPABASE_SERVICE_ROLE_KEY` | web | Server-only; resolves the tenant project by slug |
-| `NEXT_PUBLIC_APP_PROJECT_SLUG` | web | Tenant slug (`debtnote-dev`) |
-| `NEXT_PUBLIC_APP_URL` | web | Base URL for shareable agreement links |
-| `RESEND_API_KEY` | edge fn | Email reminders |
+Open http://localhost:3000 — marketing landing at `/`, sign in at `/login` (email OTP), the app at `/dashboard`.
 
 ## Features (v1)
 
-- Dual ledger (pautang / utang)
+- Creditor-only collection ledger (money owed to you)
 - Contacts, records, installments, payments
 - Schedule types: one-time, daily, weekly, 15th/30th salary, paluwagan
-- Email reminder queue with 4 tones (incl. Shinigami Notice)
-- Public agreement links + signature canvas (no borrower account)
+- Debtor email nudges (4 tones) when contact/agreement has email
+- WhatsApp / copy link for non-techie debtors (no account needed)
+- Guest agreement + signature canvas; GCash/Maya shown when set
+- Lender alerts: agreement signed, proof to review, overdue digest
 - Proof upload freezes pending reminders
 - Paluwagan pool rotation
 
-**Coming soon:** SMS reminders + paid checkout (UI scaffolded, honest "coming soon" labeling).
-
-## Auth email (Resend)
-
-DebtNote uses the **Send Email Hook** (`auth-send-email` edge function) for branded OTP emails. See [`docs/AUTH_EMAIL.md`](docs/AUTH_EMAIL.md).
-
-Hook URL: `https://xkoyoleurdafejlyxpxk.supabase.co/functions/v1/auth-send-email`
+**Coming soon:** SMS reminders + paid checkout.
 
 ## Deploy
 
 - **Web:** Vercel — root `apps/web` (domain: `debtnote.app`)
 - **Mobile:** Google Play / App Store (see [`docs/PLAY_STORE.md`](docs/PLAY_STORE.md))
-- **Edge functions:** `supabase functions deploy debt-note-send-reminder`
+- **Edge functions:**
+  - `supabase functions deploy debt-note-send-reminder --no-verify-jwt`
+  - `supabase functions deploy debt-note-process-reminder-queue --no-verify-jwt`
+  - `supabase functions deploy debt-note-notify-lender --no-verify-jwt`
+- **Cron (suggested):** daily `POST .../debt-note-notify-lender` with `{ "event": "overdue_digest" }`; every few minutes process the reminder queue.
 
 ## Docs
 
@@ -98,4 +82,4 @@ Hook URL: `https://xkoyoleurdafejlyxpxk.supabase.co/functions/v1/auth-send-email
 
 ## License
 
-Private — Ryan Vince Castillo
+Private — all rights reserved.

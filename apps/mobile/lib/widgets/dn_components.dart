@@ -53,7 +53,6 @@ class DNLedgerRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isReceivable = direction == 'receivable';
     return DNCard(
       onTap: onTap,
       accent: overdue ? DNTheme.bloodRed : DNTheme.border,
@@ -62,7 +61,7 @@ class DNLedgerRow extends StatelessWidget {
           Container(
             width: 3,
             height: 48,
-            color: isReceivable ? DNTheme.success : DNTheme.warning,
+            color: DNTheme.success,
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -79,11 +78,11 @@ class DNLedgerRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(formatPeso(amount), style: const TextStyle(fontWeight: FontWeight.bold, color: DNTheme.ink)),
-              Text(
-                isReceivable ? 'Pautang' : 'Utang',
+              const Text(
+                'Collect',
                 style: TextStyle(
                   fontSize: 11,
-                  color: isReceivable ? DNTheme.success : DNTheme.warning,
+                  color: DNTheme.success,
                 ),
               ),
             ],

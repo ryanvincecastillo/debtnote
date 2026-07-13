@@ -15,7 +15,7 @@ DebtNote runs on the same Supabase project as other side apps. Tables use the `d
 |-------|---------|
 | `debt_note_profiles` | User settings, GCash/Maya, default tone, plan tier |
 | `debt_note_contacts` | Borrower/lender contacts |
-| `debt_note_records` | Utang entries (receivable/payable) |
+| `debt_note_records` | Collection entries (receivable; payable legacy hidden) |
 | `debt_note_installments` | Generated schedule |
 | `debt_note_payments` | Payment log |
 | `debt_note_agreements` | Guest-accessible promissory notes |
@@ -40,8 +40,9 @@ DebtNote runs on the same Supabase project as other side apps. Tables use the `d
 
 ### Edge functions
 
-- `debt-note-send-reminder` — tone template → Resend
-- `debt-note-process-reminder-queue` — cron, skips `frozen` rows
+- `debt-note-send-reminder` — tone template → Resend (to **debtor**)
+- `debt-note-process-reminder-queue` — cron; resolves contact/agreement email; skips `frozen`
+- `debt-note-notify-lender` — lender alerts: `agreement_signed`, `proof_pending`, `overdue_digest`
 
 ### Legacy note
 

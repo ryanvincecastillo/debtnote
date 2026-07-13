@@ -31,7 +31,10 @@ Deno.serve(async (req) => {
   }
 
   const template = toneTemplates[tone] ?? toneTemplates.taglish_casual;
-  const message = template(context);
+  let message = template(context);
+  if (context.paymentHint?.trim()) {
+    message = `${message}\n\n${context.paymentHint.trim()}`;
+  }
 
   if (!RESEND_API_KEY) {
     return new Response(JSON.stringify({ ok: true, preview: message, sent: false }), {

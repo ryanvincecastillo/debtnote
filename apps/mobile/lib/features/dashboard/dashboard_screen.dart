@@ -30,7 +30,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     setState(() => _loading = true);
     try {
       final summary = await debtNoteRepo.fetchDashboardSummary();
-      final records = await debtNoteRepo.fetchRecords();
+      final records = await debtNoteRepo.fetchRecords(direction: 'receivable');
       if (mounted) {
         setState(() {
           _summary = summary;
@@ -61,7 +61,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           _load();
         },
         icon: const Icon(Icons.add),
-        label: const Text('New utang'),
+        label: const Text('New record'),
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator(color: DNTheme.bloodRed))
@@ -71,24 +71,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: ListView(
                 padding: const EdgeInsets.all(16),
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _SummaryTile(
-                          label: 'Pautang (collect)',
-                          amount: _summary?.totalReceivable ?? 0,
-                          color: DNTheme.success,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: _SummaryTile(
-                          label: 'Utang (pay)',
-                          amount: _summary?.totalPayable ?? 0,
-                          color: DNTheme.warning,
-                        ),
-                      ),
-                    ],
+                  _SummaryTile(
+                    label: 'Total to collect',
+                    amount: _summary?.totalReceivable ?? 0,
+                    color: DNTheme.success,
                   ),
                   const SizedBox(height: 12),
                   DNCard(
@@ -104,7 +90,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   const Text('Recent records', style: TextStyle(fontWeight: FontWeight.w600, color: DNTheme.paper)),
                   const SizedBox(height: 12),
                   if (_records.isEmpty)
-                    const DNEmptyState(message: 'No active utang yet. Tap + to add one.')
+                    const DNEmptyState(message: 'No collections yet. Tap + to add one.')
                   else
                     ..._records.map(
                       (r) => Padding(

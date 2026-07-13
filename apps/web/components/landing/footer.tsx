@@ -35,7 +35,7 @@ export function LandingFooter() {
               Let the notebook do the talking.
             </p>
             <p className="mt-3 max-w-xs text-xs text-zinc-600">
-              A personal utang &amp; pautang notebook for Filipinos. DebtNote is not
+              A collection notebook for local Filipino lenders. DebtNote is not
               a lender and does not charge interest.
             </p>
           </div>

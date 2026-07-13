@@ -37,15 +37,21 @@ export async function getDashboardSummary(): Promise<DashboardSummary> {
 
   const [{ data: active }, { count: overdueCount }, { data: recent }, { data: due }] =
     await Promise.all([
-      supabase.from("debt_note_records").select("direction, balance, status").eq("status", "active"),
+      supabase
+        .from("debt_note_records")
+        .select("direction, balance, status")
+        .eq("status", "active")
+        .eq("direction", "receivable"),
       supabase
         .from("debt_note_installments")
-        .select("id", { count: "exact", head: true })
-        .eq("status", "overdue"),
+        .select("id, record:debt_note_records!inner(direction)", { count: "exact", head: true })
+        .eq("status", "overdue")
+        .eq("record.direction", "receivable"),
       supabase
         .from("debt_note_records")
         .select("*, contact:debt_note_contacts(id, name)")
         .eq("status", "active")
+        .eq("direction", "receivable")
         .order("created_at", { ascending: false })
         .limit(6),
       supabase
@@ -53,6 +59,7 @@ export async function getDashboardSummary(): Promise<DashboardSummary> {
         .select(
           "*, record:debt_note_records!inner(id, title, direction, status, contact:debt_note_contacts(id, name))",
         )
+        .eq("record.direction", "receivable")
         .in("status", ["pending", "overdue"])
         .gte("due_date", from)
         .lte("due_date", to)
@@ -61,11 +68,8 @@ export async function getDashboardSummary(): Promise<DashboardSummary> {
     ]);
 
   let totalReceivable = 0;
-  let totalPayable = 0;
   for (const r of active ?? []) {
-    const bal = toNumber((r as { balance: number | string }).balance);
-    if ((r as { direction: string }).direction === "receivable") totalReceivable += bal;
-    else totalPayable += bal;
+    totalReceivable += toNumber((r as { balance: number | string }).balance);
   }
 
   const dueThisWeek = ((due ?? []) as unknown as DueInstallment[]).filter(
@@ -74,7 +78,7 @@ export async function getDashboardSummary(): Promise<DashboardSummary> {
 
   return {
     totalReceivable,
-    totalPayable,
+    totalPayable: 0,
     activeCount: (active ?? []).length,
     overdueCount: overdueCount ?? 0,
     recent: (recent ?? []) as unknown as DashboardSummary["recent"],

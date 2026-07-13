@@ -10,13 +10,13 @@ import type {
 } from "@/lib/types";
 
 export const DIRECTION_LABEL: Record<Direction, string> = {
-  receivable: "Pautang (collect)",
-  payable: "Utang (pay)",
+  receivable: "Collect",
+  payable: "Pay", // legacy DB value — not exposed in UI
 };
 
 export const DIRECTION_SHORT: Record<Direction, string> = {
-  receivable: "Pautang",
-  payable: "Utang",
+  receivable: "Collect",
+  payable: "Pay",
 };
 
 export const SCHEDULE_LABEL: Record<ScheduleType, string> = {
@@ -92,7 +92,9 @@ export const SCHEDULE_OPTIONS = (Object.keys(SCHEDULE_LABEL) as ScheduleType[]).
   label: SCHEDULE_LABEL[k],
 }));
 
-export const DIRECTION_OPTIONS = (Object.keys(DIRECTION_LABEL) as Direction[]).map((k) => ({
+export const DIRECTION_OPTIONS = (
+  (Object.keys(DIRECTION_LABEL) as Direction[]).filter((k) => k === "receivable")
+).map((k) => ({
   value: k,
   label: DIRECTION_LABEL[k],
 }));

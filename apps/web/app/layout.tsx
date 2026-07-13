@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     template: "%s · DebtNote",
   },
   description:
-    "Personal utang/pautang collection for Filipinos. Dual ledger, automated email nudges, signed promissory agreements, and paluwagan pools.",
+    "Collection notebook for local Filipino lenders. Track what’s owed to you, share signed agreements, and nudge debtors until they’re paid.",
   icons: {
     icon: [
       { url: "/debtnote-icon.png", sizes: "512x512", type: "image/png" },

@@ -19,3 +19,10 @@ enabled = true
 # JWT verification at the gateway must stay off or OTP emails fail for all tenants.
 [functions.auth-send-email]
 verify_jwt = false
+
+# Lender notify is invoked with service role from Next.js / cron.
+[functions.debt-note-notify-lender]
+verify_jwt = false
+
+[functions.debt-note-process-reminder-queue]
+verify_jwt = false

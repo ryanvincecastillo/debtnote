@@ -14,6 +14,7 @@ export function ScheduleReminderForm({
   recordId,
   defaultTone,
   borrowerName,
+  debtorEmail,
   amount,
   title,
   dueDate,
@@ -21,6 +22,8 @@ export function ScheduleReminderForm({
   recordId: string;
   defaultTone?: Tone;
   borrowerName: string;
+  /** Contact or agreement email — required to schedule. */
+  debtorEmail: string | null;
   amount: number | string;
   title: string;
   dueDate: string | null;
@@ -30,6 +33,8 @@ export function ScheduleReminderForm({
   const [scheduledAt, setScheduledAt] = React.useState("");
   const [pending, setPending] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+
+  const canEmail = Boolean(debtorEmail?.trim());
 
   const preview = renderTonePreview(tone, {
     borrower: borrowerName || "kaibigan",
@@ -41,6 +46,12 @@ export function ScheduleReminderForm({
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    if (!canEmail) {
+      setError(
+        "Walang email. Magdagdag ng email sa contact, o i-share ang agreement link via WhatsApp.",
+      );
+      return;
+    }
     if (!scheduledAt) {
       setError("Choose when to send the reminder.");
       return;
@@ -63,15 +74,27 @@ export function ScheduleReminderForm({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Schedule a reminder</CardTitle>
+        <CardTitle>Email the debtor</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={onSubmit} className="space-y-4">
+          {canEmail ? (
+            <p className="rounded-xl border border-border bg-elevated px-3.5 py-2.5 text-xs text-muted">
+              Sends to <span className="font-medium text-paper">{debtorEmail}</span> — not to you.
+            </p>
+          ) : (
+            <p className="rounded-xl border border-danger/30 bg-danger/10 px-3.5 py-2.5 text-xs text-danger">
+              Walang email ang debtor. I-share ang agreement link via WhatsApp, o lagyan ng email
+              ang contact.
+            </p>
+          )}
+
           <Field label="Tone" htmlFor="reminder-tone">
             <Select
               id="reminder-tone"
               value={tone}
               onChange={(e) => setTone(e.target.value as ReminderTone)}
+              disabled={!canEmail}
             >
               {toneOptions.map((t) => (
                 <option key={t.id} value={t.id}>
@@ -93,13 +116,20 @@ export function ScheduleReminderForm({
               value={scheduledAt}
               onChange={(e) => setScheduledAt(e.target.value)}
               required
+              disabled={!canEmail}
             />
           </Field>
 
           {error ? <p className="text-sm text-danger">{error}</p> : null}
 
-          <Button type="submit" variant="outline" size="sm" disabled={pending} className="w-full">
-            {pending ? "Scheduling…" : "Schedule reminder"}
+          <Button
+            type="submit"
+            variant="outline"
+            size="sm"
+            disabled={pending || !canEmail}
+            className="w-full"
+          >
+            {pending ? "Scheduling…" : "Schedule email reminder"}
           </Button>
         </form>
       </CardContent>

@@ -158,4 +158,7 @@ export interface AgreementByToken {
   principal: number;
   balance: number;
   direction: Direction;
+  gcash_number?: string | null;
+  maya_number?: string | null;
+  lender_name?: string | null;
 }

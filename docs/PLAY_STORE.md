@@ -5,19 +5,21 @@
 - **Name:** Debt Note App
 - **Package:** `com.ryanvincecastillo.debtnote_mobile`
 - **Category:** Finance
-- **Short description:** Collect utang without awkwardness — dual ledger, email nudges, signed agreements.
+- **Short description:** Collection notebook for local lenders — agreements, nudges, WhatsApp share.
 
 ## Store listing copy (draft)
 
-**Title:** Debt Note App — Utang & Pautang Tracker
+**Title:** Debt Note App — Collection Notebook
 
 **Description:**
-Debt Note App helps Filipinos track money owed and money to collect — without ruining relationships.
+Debt Note App helps local Filipino lenders track money owed to them — without ruining relationships.
 
-- Dual ledger: pautang (collect) and utang (pay)
-- Automated email reminders with customizable tones
-- Share promissory note links — borrowers sign without creating an account
+- Collection ledger: what’s owed to you
+- Email reminders to debtors (when they have email)
+- Share promissory note links via WhatsApp — borrowers sign without creating an account
+- Show GCash/Maya on the agreement so non-techie debtors can pay
 - Upload payment proof to pause reminders while you verify
+- Lender alerts when someone signs or sends proof
 - Paluwagan pool tracking for community savings
 
 Free plan includes unlimited records and email reminders. SMS reminders coming soon.

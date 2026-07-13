@@ -1,24 +1,42 @@
 "use client";
 
 import * as React from "react";
-import { Check, Copy } from "lucide-react";
+import { Check, Copy, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-/** Renders the share link + a copy-to-clipboard button. */
-export function CopyLinkButton({ token, className }: { token: string; className?: string }) {
-  const [copied, setCopied] = React.useState(false);
-
+function agreementUrl(token: string) {
   const base = process.env.NEXT_PUBLIC_APP_URL ?? "";
-  const url = `${base}/a/${token}`;
-  const display = base ? url : `/a/${token}`;
+  return base ? `${base}/a/${token}` : `/a/${token}`;
+}
+
+function whatsappHref(token: string, borrowerName?: string) {
+  const url = agreementUrl(token);
+  const name = borrowerName?.trim() || "kaibigan";
+  const text = `Hi ${name}! Ito ang DebtNote agreement link para sa utang — paki-review at paki-sign: ${url}`;
+  return `https://wa.me/?text=${encodeURIComponent(text)}`;
+}
+
+/** Copy + WhatsApp share for agreement links (non-techie debtor path). */
+export function ShareAgreementButtons({
+  token,
+  borrowerName,
+  className,
+}: {
+  token: string;
+  borrowerName?: string;
+  className?: string;
+}) {
+  const [copied, setCopied] = React.useState(false);
+  const url = agreementUrl(token);
+  const display = process.env.NEXT_PUBLIC_APP_URL ? url : `/a/${token}`;
 
   async function copy() {
     try {
-      await navigator.clipboard.writeText(url || display);
+      await navigator.clipboard.writeText(url.startsWith("http") ? url : `${window.location.origin}${display}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     } catch {
-      // clipboard unavailable — no-op
+      // clipboard unavailable
     }
   }
 
@@ -40,6 +58,20 @@ export function CopyLinkButton({ token, className }: { token: string; className?
           )}
         </Button>
       </div>
+      <a
+        href={whatsappHref(token, borrowerName)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border-strong px-3 py-2 text-sm font-semibold text-paper transition-colors hover:bg-elevated"
+      >
+        <MessageCircle className="h-4 w-4" />
+        Share via WhatsApp
+      </a>
     </div>
   );
+}
+
+/** @deprecated Prefer ShareAgreementButtons */
+export function CopyLinkButton({ token, className }: { token: string; className?: string }) {
+  return <ShareAgreementButtons token={token} className={className} />;
 }

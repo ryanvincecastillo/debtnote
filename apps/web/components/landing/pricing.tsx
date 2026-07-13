@@ -4,7 +4,7 @@ import { Reveal } from "@/components/motion";
 import { buttonClasses } from "@/components/ui/button";
 
 const FREE_INCLUDES = [
-  "Unlimited records — pautang & utang",
+  "Unlimited collection records",
   "Automated email nudges (all 4 tones)",
   "Signed promissory agreements",
   "Proof-upload freeze",

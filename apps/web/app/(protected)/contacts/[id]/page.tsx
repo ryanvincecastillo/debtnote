@@ -5,7 +5,7 @@ import { getContact } from "@/lib/data/contacts";
 import { listRecords } from "@/lib/data/records";
 import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Money, DirectionBadge } from "@/components/ui/money";
+import { Money } from "@/components/ui/money";
 import { StatusBadge } from "@/components/ui/badge";
 import { Table, THead, TBody, TR, TH, TD, EmptyState } from "@/components/ui/data-table";
 import { RECORD_STATUS_LABEL, SCHEDULE_LABEL } from "@/lib/constants";
@@ -19,7 +19,7 @@ export default async function ContactDetailPage({
   const contact = await getContact(id);
   if (!contact) notFound();
 
-  const all = await listRecords();
+  const all = await listRecords({ direction: "receivable" });
   const records = all.filter((r) => r.contact?.id === contact.id);
 
   return (
@@ -34,7 +34,7 @@ export default async function ContactDetailPage({
         </Link>
       </div>
 
-      <PageHeader title={contact.name} subtitle="Contact detail" />
+      <PageHeader title={contact.name} subtitle="Debtor contact" />
 
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-1">
@@ -79,7 +79,6 @@ export default async function ContactDetailPage({
               <THead>
                 <TR>
                   <TH>Title</TH>
-                  <TH>Direction</TH>
                   <TH>Schedule</TH>
                   <TH className="text-right">Balance</TH>
                   <TH>Status</TH>
@@ -96,12 +95,9 @@ export default async function ContactDetailPage({
                         {r.title}
                       </Link>
                     </TD>
-                    <TD>
-                      <DirectionBadge direction={r.direction} />
-                    </TD>
                     <TD className="text-muted">{SCHEDULE_LABEL[r.schedule_type]}</TD>
                     <TD className="text-right">
-                      <Money value={r.balance} direction={r.direction} />
+                      <Money value={r.balance} direction="receivable" />
                     </TD>
                     <TD>
                       <StatusBadge status={r.status} label={RECORD_STATUS_LABEL[r.status]} />

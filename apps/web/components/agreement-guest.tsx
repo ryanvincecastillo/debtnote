@@ -72,7 +72,14 @@ export function AgreementGuestView({ token }: { token: string }) {
       p_token: token,
       p_signature: signature,
     });
-    if (data) setDone(true);
+    if (data) {
+      setDone(true);
+      void fetch("/api/notify-lender", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event: "agreement_signed", token }),
+      });
+    }
     setSigning(false);
   }
 
@@ -112,6 +119,27 @@ export function AgreementGuestView({ token }: { token: string }) {
         I, <strong className="text-paper">{agreement.borrower_name}</strong>, acknowledge the
         obligation above and agree to the repayment terms set by the lender via DebtNote.
       </div>
+
+      {(agreement.gcash_number || agreement.maya_number) && (
+        <div className="mb-6 rounded-xl border border-white/15 bg-white/[0.03] p-4">
+          <p className="mb-2 text-xs font-medium tracking-wider text-zinc-500 uppercase">
+            How to pay{agreement.lender_name ? ` · ${agreement.lender_name}` : ""}
+          </p>
+          <ul className="space-y-1.5 text-sm text-paper">
+            {agreement.gcash_number ? (
+              <li>
+                GCash: <span className="tnum font-semibold">{agreement.gcash_number}</span>
+              </li>
+            ) : null}
+            {agreement.maya_number ? (
+              <li>
+                Maya: <span className="tnum font-semibold">{agreement.maya_number}</span>
+              </li>
+            ) : null}
+          </ul>
+        </div>
+      )}
+
       <div className="mb-2 flex items-center justify-between">
         <p className="text-sm text-faint">Sign below with your finger or mouse:</p>
         {hasDrawn ? (
