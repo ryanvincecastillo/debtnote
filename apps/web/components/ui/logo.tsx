@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-/** The Debt Note notebook wordmark. */
+/** The DebtNote app mark (tab/app icon art). */
 export function DNLogoMark({
   compact = false,
   className,
@@ -14,12 +14,13 @@ export function DNLogoMark({
   const width = compact ? 120 : 180;
   return (
     <Image
-      src="/debtnote.png"
+      src="/debtnote-app.png"
       alt="DebtNote"
       width={width}
-      height={Math.round(width * 1.19)}
+      height={width}
       priority={priority}
-      className={cn("h-auto w-auto", compact ? "max-h-11" : "max-h-16", className)}
+      sizes={compact ? "120px" : "180px"}
+      className={cn("h-auto w-auto object-contain", compact ? "max-h-11" : "max-h-16", className)}
       style={{ width, height: "auto" }}
     />
   );

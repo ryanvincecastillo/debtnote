@@ -41,11 +41,19 @@ export const getProfile = cache(async (): Promise<DebtNoteProfile | null> => {
   const user = await getUser();
   if (!user) return null;
   const supabase = await createClient();
-  let { data } = await supabase.from("debt_note_profiles").select("*").eq("id", user.id).maybeSingle();
-  if (!data) {
-    // First visit — provision, then re-read.
-    await ensureProfile(user.email?.split("@")[0] ?? "");
-    ({ data } = await supabase.from("debt_note_profiles").select("*").eq("id", user.id).maybeSingle());
-  }
+  const { data: existing } = await supabase
+    .from("debt_note_profiles")
+    .select("*")
+    .eq("id", user.id)
+    .maybeSingle();
+  if (existing) return existing as DebtNoteProfile;
+
+  // First visit — provision, then re-read.
+  await ensureProfile(user.email?.split("@")[0] ?? "");
+  const { data } = await supabase
+    .from("debt_note_profiles")
+    .select("*")
+    .eq("id", user.id)
+    .maybeSingle();
   return (data as DebtNoteProfile) ?? null;
 });
