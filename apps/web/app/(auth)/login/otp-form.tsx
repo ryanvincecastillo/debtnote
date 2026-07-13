@@ -26,9 +26,17 @@ export function OtpLoginForm() {
     setLoading(true);
     setError(null);
     const supabase = createClient();
+    // Shared Supabase project: Send Email Hook routes branding by redirect_to
+    // (preferred) then user_metadata.app. Without these, OTP falls back to InaanApp.
+    const appUrl =
+      process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") || window.location.origin;
     const { error } = await supabase.auth.signInWithOtp({
       email: email.trim(),
-      options: { shouldCreateUser: true },
+      options: {
+        shouldCreateUser: true,
+        emailRedirectTo: `${appUrl}/login`,
+        data: { app: "debtnote", app_origin: "debtnote" },
+      },
     });
     setLoading(false);
     if (error) {

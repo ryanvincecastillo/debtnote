@@ -18,11 +18,21 @@ data: {'app': 'debtnote', 'app_origin': 'debtnote'},
 emailRedirectTo: 'debtnote://login-callback',
 ```
 
+## Web (`apps/web`)
+
+Same rule — pass DebtNote markers or the hook defaults to InaanApp:
+
+```ts
+emailRedirectTo: `${NEXT_PUBLIC_APP_URL}/login`,
+data: { app: 'debtnote', app_origin: 'debtnote' },
+```
+
 Supabase project redirect allow list must include:
 
 - `debtnote://login-callback`
 - `inaanapp://login-callback`
-- `https://debtnote.app/auth/callback` (landing magic links)
+- `https://debtnote-app.vercel.app/**`
+- `https://debtnote.app/**` (custom domain / magic links)
 
 ## Edge function
 

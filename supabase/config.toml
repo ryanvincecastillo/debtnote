@@ -14,3 +14,8 @@ additional_redirect_urls = ["http://localhost:3000/**"]
 
 [storage]
 enabled = true
+
+# GoTrue Send Email Hook signs with the hook secret (not a JWT).
+# JWT verification at the gateway must stay off or OTP emails fail for all tenants.
+[functions.auth-send-email]
+verify_jwt = false
