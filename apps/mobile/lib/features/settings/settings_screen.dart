@@ -77,7 +77,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('Plan: ${_plan.toUpperCase()}', style: const TextStyle(color: DNTheme.paper, fontWeight: FontWeight.w600)),
-                            const Text('Email reminders included. SMS coming soon.', style: TextStyle(color: DNTheme.textSecondary, fontSize: 12)),
+                            const Text(
+                              'Email reminders included. SMS + paid upgrade deferred until email delivery is solid.',
+                              style: TextStyle(color: DNTheme.textSecondary, fontSize: 12),
+                            ),
                           ],
                         ),
                       ),

@@ -50,7 +50,10 @@ export default async function SettingsPage() {
                       {PLAN_LABEL[profile.plan_tier]}
                     </Badge>
                   </div>
-                  <p className="text-xs text-muted">Free — email reminders. SMS coming soon.</p>
+                  <p className="text-xs text-muted">
+                    Free — email reminders. SMS and paid upgrade stay deferred until the free email
+                    loop is reliable in production.
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -62,7 +65,8 @@ export default async function SettingsPage() {
             </CardHeader>
             <CardContent className="space-y-3">
               <p className="text-sm text-muted">
-                Mas maraming reminders, SMS, at team features — paparating na. Abangan mo.
+                SMS reminders, paid checkout, and team features are deferred until email delivery
+                (cron + Resend) is proven in production.
               </p>
               <Button variant="outline" size="sm" disabled>
                 Upgrade (coming soon)

@@ -63,7 +63,7 @@ Open http://localhost:3000 — marketing landing at `/`, sign in at `/login` (em
 - Proof upload freezes pending reminders
 - Paluwagan pool rotation
 
-**Coming soon:** SMS reminders + paid checkout.
+**Coming soon (deferred until free email reminders + cron are solid):** SMS reminders + paid checkout.
 
 ## Deploy
 
@@ -73,7 +73,7 @@ Open http://localhost:3000 — marketing landing at `/`, sign in at `/login` (em
   - `supabase functions deploy debt-note-send-reminder --no-verify-jwt`
   - `supabase functions deploy debt-note-process-reminder-queue --no-verify-jwt`
   - `supabase functions deploy debt-note-notify-lender --no-verify-jwt`
-- **Cron (suggested):** daily `POST .../debt-note-notify-lender` with `{ "event": "overdue_digest" }`; every few minutes process the reminder queue.
+- **Cron (Vercel):** [`apps/web/vercel.json`](apps/web/vercel.json) — every 5 min `/api/cron/process-reminders`, daily 01:00 UTC `/api/cron/overdue-digest`. Set `CRON_SECRET` and `DEBTNOTE_EDGE_SECRET` in Vercel env (match Supabase secrets for the edge secret).
 
 ## Docs
 

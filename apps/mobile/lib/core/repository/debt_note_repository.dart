@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/debt_note_models.dart';
@@ -11,6 +12,17 @@ class DebtNoteRepository {
   final SupabaseClient _client;
 
   String get _userId => _client.auth.currentUser!.id;
+
+  /// Guest agreement base URL (web). Defaults to production.
+  String get agreementBaseUrl {
+    final fromEnv = dotenv.env['APP_URL']?.trim();
+    if (fromEnv != null && fromEnv.isNotEmpty) {
+      return fromEnv.replaceAll(RegExp(r'/$'), '');
+    }
+    return 'https://debtnote.app';
+  }
+
+  String agreementLink(String publicToken) => '$agreementBaseUrl/a/$publicToken';
 
   Future<String> _projectId() async {
     final id = await AppProject.ensureInitialized();
@@ -106,7 +118,7 @@ class DebtNoteRepository {
     final projectId = await _projectId();
     var filter = _client
         .from('debt_note_records')
-        .select('*, debt_note_contacts(name)')
+        .select('*, debt_note_contacts(name, email)')
         .eq('project_id', projectId)
         .eq('owner_user_id', _userId);
     if (direction != null) {
@@ -270,6 +282,55 @@ class DebtNoteRepository {
       'p_record_id': recordId,
       'p_storage_path': path,
     });
+    await notifyLenderProofPending(recordId);
+  }
+
+  Future<void> notifyLenderProofPending(String recordId) async {
+    try {
+      await _client.functions.invoke(
+        'debt-note-notify-lender',
+        body: {'event': 'proof_pending', 'recordId': recordId},
+      );
+    } catch (_) {
+      // Alerts must not block upload.
+    }
+  }
+
+  Future<List<DebtNoteProof>> fetchProofs(String recordId) async {
+    final projectId = await _projectId();
+    final rows = await _client
+        .from('debt_note_proof_submissions')
+        .select()
+        .eq('project_id', projectId)
+        .eq('record_id', recordId)
+        .order('submitted_at', ascending: false);
+    return rows.map((r) => DebtNoteProof.fromMap(r)).toList();
+  }
+
+  Future<void> reviewProof({
+    required String proofId,
+    required String recordId,
+    required String decision,
+  }) async {
+    await _client.from('debt_note_proof_submissions').update({
+      'status': decision,
+      if (decision == 'verified') 'verified_at': DateTime.now().toUtc().toIso8601String(),
+    }).eq('id', proofId);
+
+    if (decision == 'verified') {
+      await _client
+          .from('debt_note_reminders')
+          .update({'status': 'pending'})
+          .eq('record_id', recordId)
+          .eq('status', 'frozen');
+    }
+  }
+
+  Future<String?> proofSignedUrl(String storagePath) async {
+    final res = await _client.storage
+        .from('debt-note-proofs')
+        .createSignedUrl(storagePath, 60 * 30);
+    return res;
   }
 
   Future<List<PaluwaganPool>> fetchPaluwaganPools() async {

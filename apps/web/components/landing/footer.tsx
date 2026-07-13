@@ -17,6 +17,7 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
       { label: "Sign in", href: "/login" },
       { label: "Create account", href: "/login" },
       { label: "Home", href: "/home" },
+      { label: "Privacy", href: "/privacy" },
     ],
   },
 ];
@@ -65,7 +66,12 @@ export function LandingFooter() {
           <p className="text-xs text-zinc-600">
             © {new Date().getFullYear()} DebtNote. Made para sa Pilipino.
           </p>
-          <p className="text-xs text-zinc-600">Peso-native · ₱ · Manila</p>
+          <div className="flex items-center gap-4 text-xs text-zinc-600">
+            <Link href="/privacy" className="transition-colors hover:text-zinc-400">
+              Privacy
+            </Link>
+            <span>Peso-native · ₱ · Manila</span>
+          </div>
         </div>
       </div>
     </footer>

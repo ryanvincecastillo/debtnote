@@ -40,9 +40,13 @@ DebtNote runs on the same Supabase project as other side apps. Tables use the `d
 
 ### Edge functions
 
-- `debt-note-send-reminder` — tone template → Resend (to **debtor**)
-- `debt-note-process-reminder-queue` — cron; resolves contact/agreement email; skips `frozen`
-- `debt-note-notify-lender` — lender alerts: `agreement_signed`, `proof_pending`, `overdue_digest`
+Require `Authorization: Bearer <service_role>` (or a valid user JWT for `proof_pending` ownership checks). Gateway JWT verify stays off (`--no-verify-jwt`); auth is enforced in-function.
+
+- `debt-note-send-reminder` — tone template → Resend (to **debtor**); service role only
+- `debt-note-process-reminder-queue` — cron via Vercel `/api/cron/process-reminders`; resolves contact/agreement email; skips `frozen`
+- `debt-note-notify-lender` — lender alerts: `agreement_signed` (service), `proof_pending` (service or owning user), `overdue_digest` (service / daily Vercel cron)
+
+Secrets: `RESEND_API_KEY`, `DEBTNOTE_FROM_EMAIL` (Debt Note App From — do **not** use shared `RESEND_FROM_EMAIL`), `DEBTNOTE_EDGE_SECRET` (shared with Next.js for privileged invokes).
 
 ### Legacy note
 

@@ -4,9 +4,19 @@ import { createClient } from "jsr:@supabase/supabase-js@2";
 Deno.serve(async (req) => {
   const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+  const edgeSecret = Deno.env.get("DEBTNOTE_EDGE_SECRET") ?? "";
 
   if (!supabaseUrl || !serviceKey) {
     return new Response(JSON.stringify({ error: "Missing Supabase env" }), { status: 500 });
+  }
+
+  const header = req.headers.get("Authorization") ?? "";
+  const token = header.startsWith("Bearer ") ? header.slice(7).trim() : "";
+  const allowed =
+    (edgeSecret.length > 0 && token === edgeSecret) ||
+    (serviceKey.length > 0 && token === serviceKey);
+  if (!allowed) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
   }
 
   const supabase = createClient(supabaseUrl, serviceKey);
@@ -21,7 +31,7 @@ Deno.serve(async (req) => {
         title,
         balance,
         debt_note_contacts(name, email),
-        debt_note_agreements(borrower_name, borrower_email)
+        debt_note_agreements(borrower_name, borrower_email, public_token)
       )
     `,
     )
@@ -40,13 +50,20 @@ Deno.serve(async (req) => {
       balance?: number;
       debt_note_contacts?: { name?: string; email?: string | null } | null;
       debt_note_agreements?:
-        | { borrower_name?: string; borrower_email?: string | null }[]
+        | {
+            borrower_name?: string;
+            borrower_email?: string | null;
+            public_token?: string;
+          }[]
         | null;
     } | null;
 
     const contact = record?.debt_note_contacts ?? null;
     const agreements = record?.debt_note_agreements ?? [];
     const agreementWithEmail = agreements.find((a) => a.borrower_email?.trim());
+    const agreementWithToken = agreements.find(
+      (a) => (a as { public_token?: string }).public_token,
+    ) as { public_token?: string; borrower_email?: string | null; borrower_name?: string } | undefined;
 
     const to =
       contact?.email?.trim() ||
@@ -84,11 +101,17 @@ Deno.serve(async (req) => {
       continue;
     }
 
+    const appUrl = Deno.env.get("DEBTNOTE_APP_URL") ?? "https://debtnote.app";
+    const publicToken = agreementWithToken?.public_token?.trim();
+    const actionUrl = publicToken ? `${appUrl}/a/${publicToken}` : appUrl;
+    const actionLabel = publicToken ? "Open your promissory note" : "Open Debt Note";
+
+    const sendAuth = Deno.env.get("DEBTNOTE_EDGE_SECRET") || serviceKey;
     const sendUrl = `${supabaseUrl}/functions/v1/debt-note-send-reminder`;
     const res = await fetch(sendUrl, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${serviceKey}`,
+        Authorization: `Bearer ${sendAuth}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -100,6 +123,8 @@ Deno.serve(async (req) => {
           title: record?.title ?? "Utang",
           dueDate: reminder.scheduled_at?.slice(0, 10) ?? "",
           paymentHint,
+          actionUrl,
+          actionLabel,
         },
       }),
     });

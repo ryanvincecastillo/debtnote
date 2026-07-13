@@ -70,6 +70,7 @@ class DebtNoteRecord {
     required this.status,
     this.contactId,
     this.contactName,
+    this.contactEmail,
     this.notes,
     this.paluwaganPoolId,
   });
@@ -83,6 +84,7 @@ class DebtNoteRecord {
   final String status;
   final String? contactId;
   final String? contactName;
+  final String? contactEmail;
   final String? notes;
   final String? paluwaganPoolId;
 
@@ -101,6 +103,7 @@ class DebtNoteRecord {
       status: map['status'] as String? ?? 'active',
       contactId: map['contact_id'] as String?,
       contactName: contact?['name'] as String?,
+      contactEmail: contact?['email'] as String?,
       notes: map['notes'] as String?,
       paluwaganPoolId: map['paluwagan_pool_id'] as String?,
     );
@@ -195,6 +198,32 @@ class DebtNoteAgreement {
       signedAt: map['signed_at'] != null
           ? DateTime.parse(map['signed_at'] as String)
           : null,
+    );
+  }
+}
+
+class DebtNoteProof {
+  DebtNoteProof({
+    required this.id,
+    required this.recordId,
+    required this.storagePath,
+    required this.status,
+    required this.submittedAt,
+  });
+
+  final String id;
+  final String recordId;
+  final String storagePath;
+  final String status;
+  final DateTime submittedAt;
+
+  factory DebtNoteProof.fromMap(Map<String, dynamic> map) {
+    return DebtNoteProof(
+      id: map['id'] as String,
+      recordId: map['record_id'] as String,
+      storagePath: map['storage_path'] as String,
+      status: map['status'] as String? ?? 'pending',
+      submittedAt: DateTime.parse(map['submitted_at'] as String),
     );
   }
 }
