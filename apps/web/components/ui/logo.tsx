@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-/** The DebtNote wordmark icon (DEBT NOTE lettering). */
+/** Notebook cover mark — transparent PNG with DEBT NOTE lettering. */
 export function DNLogoMark({
   compact = false,
   className,
@@ -11,17 +11,22 @@ export function DNLogoMark({
   className?: string;
   priority?: boolean;
 }) {
-  const width = compact ? 120 : 180;
+  // Source art is ~1149×1369 (portrait notebook).
+  const width = compact ? 88 : 148;
+  const height = compact ? 105 : 176;
   return (
     <Image
-      src="/debtnote-icon.png"
+      src="/debtnote.png"
       alt="DebtNote"
       width={width}
-      height={width}
+      height={height}
       priority={priority}
-      sizes={compact ? "120px" : "180px"}
-      className={cn("h-auto w-auto object-contain", compact ? "max-h-11" : "max-h-16", className)}
-      style={{ width, height: "auto" }}
+      sizes={compact ? "88px" : "148px"}
+      className={cn(
+        "h-auto w-auto object-contain drop-shadow-[0_12px_40px_rgba(0,0,0,0.45)]",
+        compact ? "max-h-[5.5rem]" : "max-h-40",
+        className,
+      )}
     />
   );
 }
