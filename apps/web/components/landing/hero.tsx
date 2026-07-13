@@ -70,7 +70,7 @@ function NotebookVisual() {
           width={720}
           height={860}
           priority
-          className="h-auto w-full select-none drop-shadow-[0_50px_100px_rgba(0,0,0,0.85)]"
+          className="h-auto w-full select-none drop-shadow-[0_40px_80px_rgba(0,0,0,0.55)]"
           style={{ transform: "translateZ(36px)" }}
         />
       </motion.div>
