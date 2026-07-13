@@ -50,6 +50,7 @@ flutter build appbundle --release
 4. Test email OTP auth on physical device
 5. Test agreement link flow end-to-end with web deployed
 6. Configure Play Console data safety (Supabase auth email, optional phone in contacts)
+7. Account deletion is in-app: Settings → Danger zone (web + mobile)
 
 ## Data safety (draft answers)
 

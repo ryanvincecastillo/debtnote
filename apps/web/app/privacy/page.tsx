@@ -135,8 +135,11 @@ export default function PrivacyPage() {
               Retention &amp; deletion
             </h2>
             <p>
-              We keep your data while your account is active. You may request deletion of your
-              account and associated DebtNote data by emailing{" "}
+              We keep your data while your account is active. You can permanently delete your
+              DebtNote account in Settings → Danger zone (web or mobile). That erases your notebook
+              data and proof files. If this login is only used for DebtNote, the Auth user is removed
+              too; if you share the same login with our other apps, those apps keep the login but
+              DebtNote data is gone. You may also email{" "}
               <a className="text-paper underline underline-offset-2" href="mailto:hello@debtnote.app">
                 hello@debtnote.app
               </a>

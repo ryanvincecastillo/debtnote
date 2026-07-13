@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PLAN_LABEL } from "@/lib/constants";
 import { ProfileForm } from "@/components/settings/profile-form";
+import { DeleteAccountPanel } from "@/components/settings/delete-account-panel";
+import { ChangeEmailPanel } from "@/components/settings/change-email-panel";
 
 export default async function SettingsPage() {
   const profile = await getProfile();
@@ -34,9 +36,11 @@ export default async function SettingsPage() {
             <CardContent className="space-y-4">
               <div className="flex items-start gap-3">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-muted" aria-hidden />
-                <div>
-                  <p className="text-xs uppercase tracking-wide text-faint">Email</p>
-                  <p className="text-sm text-paper">{profile.email}</p>
+                <div className="w-full space-y-3">
+                  <div>
+                    <p className="text-xs uppercase tracking-wide text-faint">Email</p>
+                    <ChangeEmailPanel currentEmail={profile.email} />
+                  </div>
                 </div>
               </div>
 
@@ -71,6 +75,15 @@ export default async function SettingsPage() {
               <Button variant="outline" size="sm" disabled>
                 Upgrade (coming soon)
               </Button>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Danger zone</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <DeleteAccountPanel />
             </CardContent>
           </Card>
         </div>

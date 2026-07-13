@@ -402,6 +402,52 @@ class DebtNoteRepository {
         .eq('project_id', projectId);
   }
 
+  /// Wipe DebtNote data (+ Auth user when not shared with other apps).
+  Future<Map<String, dynamic>> deleteAccount() async {
+    final projectId = await _projectId();
+    final res = await _client.functions.invoke(
+      'debt-note-delete-account',
+      body: {'projectId': projectId},
+    );
+    final data = (res.data is Map)
+        ? Map<String, dynamic>.from(res.data as Map)
+        : <String, dynamic>{};
+    if (res.status >= 400) {
+      throw StateError(data['error']?.toString() ?? 'Delete account failed');
+    }
+    await signOut();
+    return data;
+  }
+
+  /// Request Auth email change (confirmation code goes to the new address).
+  Future<void> requestEmailChange(String newEmail) async {
+    await _client.auth.updateUser(
+      UserAttributes(email: newEmail.trim()),
+      emailRedirectTo: 'debtnote://login-callback',
+    );
+  }
+
+  /// Confirm email change with the OTP from the new inbox.
+  Future<void> confirmEmailChange({
+    required String newEmail,
+    required String token,
+  }) async {
+    await _client.auth.verifyOTP(
+      email: newEmail.trim(),
+      token: token.trim(),
+      type: OtpType.emailChange,
+    );
+    final email = _client.auth.currentUser?.email;
+    if (email != null && email.isNotEmpty) {
+      await _client
+          .from('debt_note_profiles')
+          .update({'email': email})
+          .eq('id', _userId);
+    }
+    // Also refresh via ensure_profile so email stays aligned.
+    await ensureProfile();
+  }
+
   Future<void> signOut() => _client.auth.signOut();
 }
 

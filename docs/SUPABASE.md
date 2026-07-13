@@ -32,19 +32,22 @@ DebtNote runs on the same Supabase project as other side apps. Tables use the `d
 - `debt_note_submit_proof(...)` — freezes pending reminders
 - `debt_note_get_agreement_by_token(p_token)` — anon
 - `debt_note_sign_agreement(p_token, p_signature)` — anon
+- `debt_note_delete_account(p_project_id)` — wipe caller’s DebtNote data + membership; returns `delete_auth` when no other `project_members` remain
 
 ### Storage
 
 - Bucket: `debt-note-proofs` (private)
 - Path: `{user_id}/{record_id}/{timestamp}_{filename}`
+- Owners may select / insert / delete their own folder
 
 ### Edge functions
 
-Require `Authorization: Bearer <service_role>` (or a valid user JWT for `proof_pending` ownership checks). Gateway JWT verify stays off (`--no-verify-jwt`); auth is enforced in-function.
+Require `Authorization: Bearer <service_role>` (or a valid user JWT for `proof_pending` ownership checks / account deletion). Gateway JWT verify stays off (`--no-verify-jwt`); auth is enforced in-function.
 
 - `debt-note-send-reminder` — tone template → Resend (to **debtor**); service role only
 - `debt-note-process-reminder-queue` — cron via Vercel `/api/cron/process-reminders`; resolves contact/agreement email; skips `frozen`
 - `debt-note-notify-lender` — lender alerts: `agreement_signed` (service), `proof_pending` (service or owning user), `overdue_digest` (service / daily Vercel cron)
+- `debt-note-delete-account` — authenticated wipe of proofs + RPC delete; deletes Auth user when `delete_auth` is true
 
 Secrets: `RESEND_API_KEY`, `DEBTNOTE_FROM_EMAIL` (Debt Note App From — do **not** use shared `RESEND_FROM_EMAIL`), `DEBTNOTE_EDGE_SECRET` (shared with Next.js for privileged invokes).
 

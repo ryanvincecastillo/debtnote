@@ -108,12 +108,164 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 const SizedBox(height: 32),
                 OutlinedButton.icon(
+                  onPressed: _changeEmail,
+                  icon: const Icon(Icons.alternate_email, color: DNTheme.paper),
+                  label: const Text('Change email', style: TextStyle(color: DNTheme.paper)),
+                ),
+                const SizedBox(height: 12),
+                OutlinedButton.icon(
                   onPressed: () => debtNoteRepo.signOut(),
                   icon: const Icon(Icons.logout, color: DNTheme.bloodRed),
                   label: const Text('Sign out', style: TextStyle(color: DNTheme.bloodRed)),
                 ),
+                const SizedBox(height: 24),
+                const Text('Danger zone', style: TextStyle(fontWeight: FontWeight.w600, color: DNTheme.bloodRed)),
+                const SizedBox(height: 8),
+                const Text(
+                  'Permanently erase your DebtNote notebook — contacts, records, agreements, reminders, and proofs.',
+                  style: TextStyle(color: DNTheme.textSecondary, fontSize: 12),
+                ),
+                const SizedBox(height: 12),
+                OutlinedButton.icon(
+                  onPressed: _confirmDeleteAccount,
+                  icon: const Icon(Icons.delete_forever, color: DNTheme.bloodRed),
+                  label: const Text('Delete account', style: TextStyle(color: DNTheme.bloodRed)),
+                ),
               ],
             ),
     );
+  }
+
+  Future<void> _changeEmail() async {
+    final emailCtrl = TextEditingController();
+    final next = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: DNTheme.surface,
+        title: const Text('Change email'),
+        content: TextField(
+          controller: emailCtrl,
+          keyboardType: TextInputType.emailAddress,
+          decoration: const InputDecoration(labelText: 'New email'),
+          autofocus: true,
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, emailCtrl.text.trim()),
+            child: const Text('Send code'),
+          ),
+        ],
+      ),
+    );
+    if (next == null || next.isEmpty || !mounted) return;
+
+    try {
+      await debtNoteRepo.requestEmailChange(next);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not send: $e')));
+      return;
+    }
+
+    if (!mounted) return;
+    final codeCtrl = TextEditingController();
+    final code = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: DNTheme.surface,
+        title: const Text('Enter confirmation code'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Sent to $next', style: const TextStyle(color: DNTheme.textSecondary, fontSize: 12)),
+            const SizedBox(height: 12),
+            TextField(
+              controller: codeCtrl,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(labelText: '6-digit code'),
+              autofocus: true,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, codeCtrl.text.trim()),
+            child: const Text('Confirm'),
+          ),
+        ],
+      ),
+    );
+    if (code == null || code.isEmpty || !mounted) return;
+
+    try {
+      await debtNoteRepo.confirmEmailChange(newEmail: next, token: code);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Email updated')));
+      _load();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not confirm: $e')));
+    }
+  }
+
+  Future<void> _confirmDeleteAccount() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: DNTheme.surface,
+        title: const Text('Delete account?'),
+        content: const Text(
+          'This permanently deletes your DebtNote data. If this login is only used for DebtNote, the Auth user is removed too. Type DELETE in the next step.',
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: TextButton.styleFrom(foregroundColor: DNTheme.bloodRed),
+            child: const Text('Continue'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+
+    final ctrl = TextEditingController();
+    final typed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: DNTheme.surface,
+        title: const Text('Type DELETE'),
+        content: TextField(
+          controller: ctrl,
+          decoration: const InputDecoration(hintText: 'DELETE'),
+          autofocus: true,
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, ctrl.text.trim() == 'DELETE'),
+            style: TextButton.styleFrom(foregroundColor: DNTheme.bloodRed),
+            child: const Text('Delete forever'),
+          ),
+        ],
+      ),
+    );
+    if (typed != true || !mounted) return;
+
+    try {
+      await debtNoteRepo.deleteAccount();
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Account deleted')),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not delete: $e')),
+      );
+    }
   }
 }

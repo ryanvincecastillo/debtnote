@@ -26,3 +26,6 @@ verify_jwt = false
 
 [functions.debt-note-process-reminder-queue]
 verify_jwt = false
+
+[functions.debt-note-delete-account]
+verify_jwt = false

@@ -49,15 +49,25 @@ export function resolveAuthApp(payload: AuthEmailPayload): AuthApp {
 export function authEmailSubject(app: AuthApp, action: string): string {
   if (app === "debtnote") {
     if (action === "recovery") return "Debt Note App — reset your access";
+    if (action === "email_change") return "Debt Note App — confirm your new email";
     return "Debt Note App — your login code";
   }
   if (action === "recovery") return "InaanApp — reset your password";
+  if (action === "email_change") return "InaanApp — confirm your new email";
   return "InaanApp — your login code";
 }
 
 export function debtNoteAuthEmailHtml(token: string, action: string): string {
   const headline =
-    action === "recovery" ? "Reset access to the notebook" : "Your login code has been written";
+    action === "recovery"
+      ? "Reset access to the notebook"
+      : action === "email_change"
+        ? "Confirm your new email address"
+        : "Your login code has been written";
+  const support =
+    action === "email_change"
+      ? "Enter this code in Debt Note App Settings to finish changing your email. It expires soon."
+      : "Enter this code in Debt Note App to continue. It expires soon.";
   return `<!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -71,7 +81,7 @@ export function debtNoteAuthEmailHtml(token: string, action: string): string {
         </td></tr>
         <tr><td style="padding:28px;">
           <p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:#e8e8e8;">${headline}.</p>
-          <p style="margin:0 0 20px;font-size:14px;line-height:1.6;color:#aaaaaa;">Enter this code in Debt Note App to continue. It expires soon.</p>
+          <p style="margin:0 0 20px;font-size:14px;line-height:1.6;color:#aaaaaa;">${support}</p>
           <div style="display:inline-block;padding:18px 28px;border:1px solid #ffffff;background:#0a0a0a;font-size:32px;letter-spacing:0.35em;font-family:monospace;color:#ffffff;">${token}</div>
           <p style="margin:24px 0 0;font-size:12px;line-height:1.6;color:#666;">If you did not request this, ignore this email. The notebook only opens for you.</p>
         </td></tr>
@@ -84,7 +94,12 @@ export function debtNoteAuthEmailHtml(token: string, action: string): string {
 }
 
 export function inaanAppAuthEmailHtml(token: string, action: string): string {
-  const headline = action === "recovery" ? "Reset your InaanApp password" : "Your InaanApp login code";
+  const headline =
+    action === "recovery"
+      ? "Reset your InaanApp password"
+      : action === "email_change"
+        ? "Confirm your new InaanApp email"
+        : "Your InaanApp login code";
   return `<!DOCTYPE html>
 <html>
 <body style="margin:0;padding:0;background:#F7F4EF;font-family:Arial,sans-serif;color:#2A2A2A;">

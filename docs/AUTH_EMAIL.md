@@ -41,6 +41,36 @@ Supabase project redirect allow list must include:
 - `https://debtnote-app.vercel.app/**`
 - `https://debtnote.app/**` (custom domain / magic links)
 
+## Change email
+
+Settings → Change email uses Auth `updateUser({ email })` + `verifyOtp({ type: 'email_change' })`.
+The Send Email Hook brands `email_change` like OTP. After confirm, `debt_note_ensure_profile`
+syncs `debt_note_profiles.email` from `auth.users`.
+
+Until DebtNote has its own Supabase project, changing email updates the shared Auth user
+(same login used by other side apps on this project).
+
+## Rate limits (shared project)
+
+DebtNote shares Supabase Auth with InaanApp / Avocado Go / etc. OTP 429
+`email rate limit exceeded` comes from **GoTrue**, not from the
+`auth-send-email` edge function.
+
+Relevant knobs (Dashboard → Authentication → Rate Limits, or Management API):
+
+| Setting | What it gates | Notes |
+|---------|---------------|-------|
+| `rate_limit_email_sent` | Project-wide auth emails (`/otp`, signup, recover, …) | Was stuck at **2/hour** while Auth SMTP fields were empty (hook-only). Raised to **100/hour**. |
+| `rate_limit_otp` | OTP endpoint throughput | Default 30/hour; set to **60**. |
+| Per-user window | Same email re-request | ~60 seconds (`smtp_max_frequency`) |
+
+DebtNote product emails (reminders / lender alerts) go through Resend edge
+functions and do **not** consume `rate_limit_email_sent`. Only Auth OTP /
+signup / recovery do.
+
+If 429s return: check Rate Limits again, avoid hammering “Email me a code”,
+and remember other apps on this project share the same bucket.
+
 ## Edge function
 
 `supabase/functions/auth-send-email`

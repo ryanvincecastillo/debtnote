@@ -46,14 +46,17 @@ export const getProfile = cache(async (): Promise<DebtNoteProfile | null> => {
     .select("*")
     .eq("id", user.id)
     .maybeSingle();
-  if (existing) return existing as DebtNoteProfile;
 
-  // First visit — provision, then re-read.
-  await ensureProfile(user.email?.split("@")[0] ?? "");
-  const { data } = await supabase
-    .from("debt_note_profiles")
-    .select("*")
-    .eq("id", user.id)
-    .maybeSingle();
-  return (data as DebtNoteProfile) ?? null;
+  // Always ensure (also syncs email after Auth email_change).
+  if (!existing || (user.email && existing.email !== user.email)) {
+    await ensureProfile(user.email?.split("@")[0] ?? "");
+    const { data } = await supabase
+      .from("debt_note_profiles")
+      .select("*")
+      .eq("id", user.id)
+      .maybeSingle();
+    return (data as DebtNoteProfile) ?? null;
+  }
+
+  return existing as DebtNoteProfile;
 });
