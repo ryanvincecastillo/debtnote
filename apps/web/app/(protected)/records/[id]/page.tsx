@@ -63,7 +63,7 @@ export default async function RecordDetailPage({
           rec.contact ? (
             <>
               With{" "}
-              <Link href={`/contacts/${rec.contact.id}`} className="text-paper hover:text-blood">
+              <Link href={`/contacts/${rec.contact.id}`} className="text-paper hover:text-accent">
                 {rec.contact.name}
               </Link>
             </>
@@ -275,9 +275,9 @@ export default async function RecordDetailPage({
               <ProofUpload recordId={rec.id} />
               <ProofReviewList recordId={rec.id} proofs={rec.proofs ?? []} />
 
-              <Card className="border-blood/30">
-                <CardHeader className="border-blood/20">
-                  <CardTitle className="text-blood">Danger zone</CardTitle>
+              <Card className="border-danger/30">
+                <CardHeader className="border-danger/20">
+                  <CardTitle className="text-danger">Danger zone</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="mb-3 text-sm text-muted">

@@ -44,7 +44,7 @@ export function RecordsTable({
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Search title or contact…"
-          className="w-full max-w-md rounded-xl border border-border bg-surface px-3 py-2.5 text-sm text-paper outline-none placeholder:text-faint focus:border-blood"
+          className="w-full max-w-md rounded-xl border border-border bg-surface px-3 py-2.5 text-sm text-paper outline-none placeholder:text-faint focus:border-accent"
         />
       </div>
       {filtered.length === 0 ? (
@@ -70,7 +70,7 @@ export function RecordsTable({
                   <Link href={`/records/${r.id}`} className="block">
                     {r.title}
                     {r.has_overdue ? (
-                      <span className="ml-2 text-[10px] uppercase tracking-wide text-blood">
+                      <span className="ml-2 text-[10px] uppercase tracking-wide text-danger">
                         Overdue
                       </span>
                     ) : null}

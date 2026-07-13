@@ -96,7 +96,7 @@ export default async function DashboardPage() {
                     <TD>
                       <Link
                         href={`/records/${i.record.id}`}
-                        className="font-medium text-paper hover:text-blood"
+                        className="font-medium text-paper hover:text-accent"
                       >
                         {i.record.title}
                       </Link>
@@ -170,7 +170,7 @@ export default async function DashboardPage() {
                       <TD>
                         <Link
                           href={`/records/${r.id}`}
-                          className="font-medium text-paper transition-colors hover:text-blood"
+                          className="font-medium text-paper transition-colors hover:text-accent"
                         >
                           {r.title}
                         </Link>

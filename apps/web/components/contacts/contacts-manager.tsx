@@ -131,7 +131,7 @@ export function ContactsManager({ initialContacts }: { initialContacts: ContactW
             {initialContacts.map((contact) => (
               <TR key={contact.id}>
                 <TD className="font-medium text-paper">
-                  <Link href={`/contacts/${contact.id}`} className="hover:text-blood">
+                  <Link href={`/contacts/${contact.id}`} className="hover:text-accent">
                     {contact.name}
                   </Link>
                 </TD>
@@ -290,7 +290,7 @@ function ContactForm({
           />
         </Field>
 
-        {error ? <p className="text-sm text-blood">{error}</p> : null}
+        {error ? <p className="text-sm text-danger">{error}</p> : null}
 
         <div className="flex gap-3 pt-1">
           <Button type="submit" variant="primary" size="md" disabled={pending}>

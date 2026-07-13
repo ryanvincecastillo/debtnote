@@ -187,7 +187,7 @@ export function CreatePoolForm() {
                       type="button"
                       onClick={() => removeMember(m.key)}
                       disabled={members.length <= 1}
-                      className="shrink-0 rounded-lg p-2 text-muted transition-colors hover:bg-elevated hover:text-blood disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-muted"
+                      className="shrink-0 rounded-lg p-2 text-muted transition-colors hover:bg-elevated hover:text-accent disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-muted"
                       aria-label={`Remove member ${i + 1}`}
                     >
                       <Trash2 className="h-4 w-4" />
@@ -201,7 +201,7 @@ export function CreatePoolForm() {
               </Button>
             </div>
 
-            {error ? <p className="text-sm text-blood">{error}</p> : null}
+            {error ? <p className="text-sm text-danger">{error}</p> : null}
 
             <div className="flex justify-end gap-3 pt-2">
               <Button type="button" variant="ghost" onClick={close} disabled={pending}>

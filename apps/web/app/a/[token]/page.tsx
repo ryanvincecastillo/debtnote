@@ -10,7 +10,7 @@ export default async function AgreementPage({
   const { token } = await params;
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-background text-white">
       <header className="border-b border-border px-6 py-4">
         <Link href="/" aria-label="DebtNote home">
           <DNLogoMark compact />

@@ -79,7 +79,7 @@ export function AppShell({
             className={cn(
               "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
               active
-                ? "bg-blood/12 text-paper"
+                ? "bg-accent/12 text-paper"
                 : "text-muted hover:bg-elevated hover:text-paper",
             )}
           >
@@ -105,7 +105,7 @@ export function AppShell({
       <form action="/auth/signout" method="post">
         <button
           type="submit"
-          className="w-full rounded-xl border border-border-strong px-3 py-2 text-sm text-muted transition-colors hover:border-blood hover:text-blood"
+          className="w-full rounded-xl border border-border-strong px-3 py-2 text-sm text-muted transition-colors hover:border-accent hover:text-accent"
         >
           Sign out
         </button>
@@ -115,7 +115,7 @@ export function AppShell({
 
   return (
     <ToastProvider>
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen bg-background">
         {/* Desktop sidebar */}
         <aside className="fixed inset-y-0 left-0 hidden w-64 flex-col border-r border-border bg-surface/60 p-4 lg:flex">
           <Link href="/dashboard" className="mb-6 px-1 pt-1">
@@ -126,7 +126,7 @@ export function AppShell({
         </aside>
 
         {/* Mobile top bar */}
-        <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border bg-black/85 px-4 py-3 backdrop-blur-xl lg:hidden">
+        <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border bg-background/85 px-4 py-3 backdrop-blur-xl lg:hidden">
           <Link href="/dashboard">
             <DNWordmark />
           </Link>
@@ -143,7 +143,7 @@ export function AppShell({
         {/* Mobile drawer */}
         {open ? (
           <div className="fixed inset-0 z-50 lg:hidden">
-            <div className="absolute inset-0 bg-black/70" onClick={() => setOpen(false)} />
+            <div className="absolute inset-0 bg-background/70" onClick={() => setOpen(false)} />
             <div className="absolute inset-y-0 left-0 flex w-72 flex-col border-r border-border bg-surface p-4">
               <div className="mb-6 flex items-center justify-between">
                 <DNWordmark />
@@ -168,7 +168,7 @@ export function AppShell({
         </main>
 
         {/* Mobile bottom tabs */}
-        <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-black/90 backdrop-blur-xl lg:hidden">
+        <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/90 backdrop-blur-xl lg:hidden">
           <div className="mx-auto grid max-w-lg grid-cols-5 gap-1 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2">
             {BOTTOM_TABS.map((item) => {
               const active = isActive(pathname, item.href, item.exact);
@@ -182,7 +182,7 @@ export function AppShell({
                     active ? "text-paper" : "text-muted",
                   )}
                 >
-                  <Icon size={18} className={active ? "text-blood" : undefined} />
+                  <Icon size={18} className={active ? "text-accent" : undefined} />
                   {item.label}
                 </Link>
               );
@@ -230,7 +230,7 @@ export function AppShell({
             aria-expanded={fabOpen}
             onClick={() => setFabOpen((v) => !v)}
             className={cn(
-              "flex h-14 w-14 items-center justify-center rounded-full bg-blood text-paper shadow-lg glow-red-hover transition-transform",
+              "flex h-14 w-14 items-center justify-center rounded-full bg-accent text-paper shadow-lg glow-accent-hover transition-transform",
               fabOpen && "rotate-45",
             )}
           >

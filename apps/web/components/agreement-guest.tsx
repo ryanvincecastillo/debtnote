@@ -32,7 +32,7 @@ export function AgreementGuestView({ token }: { token: string }) {
     setHasDrawn(true);
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    ctx.strokeStyle = "#c1121f";
+    ctx.strokeStyle = "#ff6c37";
     ctx.lineWidth = 2;
     ctx.lineCap = "round";
     const rect = canvas.getBoundingClientRect();
@@ -103,7 +103,7 @@ export function AgreementGuestView({ token }: { token: string }) {
 
   return (
     <div className="mx-auto max-w-lg">
-      <p className="mb-2 text-xs uppercase tracking-widest text-blood">Digital Promissory Note</p>
+      <p className="mb-2 text-xs uppercase tracking-widest text-accent">Digital Promissory Note</p>
       <h1 className="mb-2 text-2xl font-bold text-paper">{agreement.record_title}</h1>
       <p className="mb-6 text-muted">
         {agreement.borrower_name} · Balance {peso(agreement.balance)}
@@ -124,7 +124,7 @@ export function AgreementGuestView({ token }: { token: string }) {
         ref={canvasRef}
         width={480}
         height={160}
-        className="w-full touch-none cursor-crosshair rounded-xl border border-dashed border-blood/40 bg-background"
+        className="w-full touch-none cursor-crosshair rounded-xl border border-dashed border-accent/40 bg-background"
         onPointerDown={startDraw}
         onPointerMove={draw}
         onPointerUp={endDraw}

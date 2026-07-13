@@ -86,7 +86,7 @@ export default async function PaluwaganPage() {
                           key={m.id}
                           className={cn(
                             "flex items-center gap-3 px-3.5 py-2.5",
-                            isNext && "bg-blood/5",
+                            isNext && "bg-accent/5",
                           )}
                         >
                           <span
@@ -95,7 +95,7 @@ export default async function PaluwaganPage() {
                               m.has_received_payout
                                 ? "border-receivable/40 bg-receivable/10 text-receivable"
                                 : isNext
-                                  ? "border-blood/50 bg-blood/10 text-blood"
+                                  ? "border-accent/50 bg-accent/10 text-accent"
                                   : "border-border-strong text-muted",
                             )}
                           >
@@ -110,7 +110,7 @@ export default async function PaluwaganPage() {
                             {m.member_name}
                           </span>
                           {isNext ? (
-                            <span className="flex shrink-0 items-center gap-1 text-xs font-medium text-blood">
+                            <span className="flex shrink-0 items-center gap-1 text-xs font-medium text-accent">
                               <Star className="h-3.5 w-3.5" />
                               Next payout
                             </span>

@@ -68,7 +68,7 @@ export default async function ContactDetailPage({
               action={
                 <Link
                   href="/records/new"
-                  className="text-sm font-medium text-blood hover:underline"
+                  className="text-sm font-medium text-accent hover:underline"
                 >
                   New record
                 </Link>
@@ -91,7 +91,7 @@ export default async function ContactDetailPage({
                     <TD>
                       <Link
                         href={`/records/${r.id}`}
-                        className="font-medium text-paper hover:text-blood"
+                        className="font-medium text-paper hover:text-accent"
                       >
                         {r.title}
                       </Link>

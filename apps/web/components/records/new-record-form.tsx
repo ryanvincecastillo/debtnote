@@ -215,7 +215,7 @@ export function NewRecordForm({ contacts: initialContacts }: { contacts: Contact
               {!addingContact ? (
                 <button
                   type="button"
-                  className="mt-2 text-sm text-blood hover:underline"
+                  className="mt-2 text-sm text-accent hover:underline"
                   onClick={() => setAddingContact(true)}
                 >
                   + New contact
@@ -297,7 +297,7 @@ export function NewRecordForm({ contacts: initialContacts }: { contacts: Contact
             />
           </Field>
 
-          {error ? <p className="text-sm text-blood">{error}</p> : null}
+          {error ? <p className="text-sm text-danger">{error}</p> : null}
 
           <div className="flex items-center gap-3 pt-1">
             <Button type="submit" variant="primary" disabled={pending}>

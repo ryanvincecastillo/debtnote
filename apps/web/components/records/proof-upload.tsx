@@ -80,11 +80,11 @@ export function ProofUpload({ recordId }: { recordId: string }) {
               type="file"
               accept="image/*,application/pdf"
               onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-              className="w-full rounded-xl border border-border-strong bg-elevated px-3.5 py-2.5 text-sm text-foreground file:mr-3 file:rounded-lg file:border-0 file:bg-blood file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-paper hover:file:bg-blood-bright"
+              className="w-full rounded-xl border border-border-strong bg-elevated px-3.5 py-2.5 text-sm text-foreground file:mr-3 file:rounded-lg file:border-0 file:bg-accent file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-paper hover:file:bg-accent-bright"
             />
           </Field>
 
-          {error ? <p className="text-sm text-blood">{error}</p> : null}
+          {error ? <p className="text-sm text-danger">{error}</p> : null}
           {notice ? <p className="text-sm text-receivable">{notice}</p> : null}
 
           <Button type="submit" variant="outline" size="sm" disabled={pending} className="w-full">

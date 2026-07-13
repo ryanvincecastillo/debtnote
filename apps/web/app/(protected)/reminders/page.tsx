@@ -81,7 +81,7 @@ export default async function RemindersPage() {
                   {r.record ? (
                     <Link
                       href={`/records/${r.record.id}`}
-                      className="font-medium text-paper hover:text-blood"
+                      className="font-medium text-paper hover:text-accent"
                     >
                       {r.record.title}
                     </Link>

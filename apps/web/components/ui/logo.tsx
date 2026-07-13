@@ -33,7 +33,7 @@ export function DNWordmark({ className }: { className?: string }) {
       className={cn("text-lg font-bold tracking-tight text-paper", className)}
       style={{ fontFamily: "var(--font-crimson), serif" }}
     >
-      Debt<span className="text-blood">Note</span>
+      Debt<span className="text-accent">Note</span>
     </span>
   );
 }

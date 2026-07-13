@@ -137,7 +137,7 @@ export function RecordPaymentForm({
             />
           </Field>
 
-          {error ? <p className="text-sm text-blood">{error}</p> : null}
+          {error ? <p className="text-sm text-danger">{error}</p> : null}
 
           <Button type="submit" variant="primary" size="sm" disabled={pending} className="w-full">
             {pending ? "Saving…" : "Log payment"}

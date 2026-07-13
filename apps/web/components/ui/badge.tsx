@@ -6,7 +6,7 @@ const intentClasses: Record<BadgeIntent, string> = {
   neutral: "bg-elevated text-muted border-border",
   success: "bg-receivable/10 text-receivable border-receivable/30",
   warn: "bg-payable/10 text-payable border-payable/30",
-  danger: "bg-blood/10 text-blood border-blood/30",
+  danger: "bg-danger/10 text-danger border-danger/30",
   info: "bg-white/5 text-foreground border-border-strong",
 };
 

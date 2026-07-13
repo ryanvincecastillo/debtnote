@@ -14,7 +14,7 @@ const FREE_INCLUDES = [
 
 export function Pricing() {
   return (
-    <section id="pricing" className="relative border-t border-border py-20 sm:py-28">
+    <section id="pricing" className="relative border-t border-border py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
@@ -33,7 +33,7 @@ export function Pricing() {
 
         <div className="mx-auto mt-12 grid max-w-3xl gap-5 md:grid-cols-2">
           <Reveal>
-            <div className="glow-red flex h-full flex-col rounded-2xl border border-blood/40 bg-surface p-7">
+            <div className="flex h-full flex-col rounded-2xl border border-border-strong bg-surface p-7">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-semibold text-paper">Email</span>
                 <Badge intent="success">Free</Badge>

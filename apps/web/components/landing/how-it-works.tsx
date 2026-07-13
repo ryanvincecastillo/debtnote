@@ -27,7 +27,7 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section id="how" className="relative border-t border-border py-20 sm:py-28">
+    <section id="how" className="relative border-t border-border py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
@@ -54,7 +54,7 @@ export function HowItWorks() {
             <Reveal key={s.step} delay={0.1 * i}>
               <div className="relative text-center md:text-left">
                 <div className="relative z-10 mx-auto inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-border-strong bg-surface md:mx-0">
-                  <s.icon className="h-6 w-6 text-blood" />
+                  <s.icon className="h-6 w-6 text-accent" />
                 </div>
                 <div
                   className="mt-5 text-sm font-bold tracking-widest text-faint tnum"

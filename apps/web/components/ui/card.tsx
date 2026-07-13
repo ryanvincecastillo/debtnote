@@ -44,7 +44,7 @@ export function StatCard({
       : tone === "payable"
         ? "text-payable"
         : tone === "danger"
-          ? "text-blood"
+          ? "text-danger"
           : "text-paper";
   return (
     <Card className="p-5">

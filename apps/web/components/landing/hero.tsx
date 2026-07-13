@@ -52,10 +52,14 @@ function NotebookVisual() {
       className="relative mx-auto flex w-full max-w-md items-center justify-center"
       style={{ perspective: 1200 }}
     >
-      {/* Blood glow halo */}
+      {/* Soft accent halo */}
       <div
         aria-hidden
-        className="absolute h-[85%] w-[85%] rounded-full bg-blood/25 blur-[90px]"
+        className="absolute h-[85%] w-[85%] rounded-full bg-accent/15 blur-[100px]"
+      />
+      <div
+        aria-hidden
+        className="absolute h-[60%] w-[60%] rounded-full bg-white/[0.04] blur-[80px]"
       />
       <motion.div
         className="relative"
@@ -84,17 +88,17 @@ function NotebookVisual() {
 export function Hero() {
   return (
     <section className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28">
-      {/* Ambient background wash */}
+      {/* Cooler ambient wash — soft white + quiet orange */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            "radial-gradient(60% 50% at 70% 20%, rgba(193,18,31,0.14), transparent 70%)",
+            "radial-gradient(55% 45% at 72% 18%, rgba(255,108,55,0.1), transparent 65%), radial-gradient(40% 35% at 20% 40%, rgba(250,250,250,0.04), transparent 60%)",
         }}
       />
 
-      <div className="mx-auto grid max-w-6xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-[1.05fr_0.95fr]">
+      <div className="mx-auto grid max-w-6xl items-center gap-16 px-5 sm:px-8 lg:grid-cols-[1.05fr_0.95fr]">
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
@@ -102,7 +106,7 @@ export function Hero() {
           className="text-center lg:text-left"
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-border-strong bg-surface px-3 py-1 text-xs tracking-wide text-muted">
-            <span className="h-1.5 w-1.5 rounded-full bg-blood" />
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             Let the notebook do the talking.
           </span>
 
@@ -111,7 +115,7 @@ export function Hero() {
             style={{ fontFamily: "var(--font-crimson), serif" }}
           >
             Collect what you&apos;re owed{" "}
-            <span className="text-blood">without the awkward</span> follow-up.
+            <span className="text-accent">without the awkward</span> follow-up.
           </h1>
 
           <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted lg:mx-0 sm:text-lg">

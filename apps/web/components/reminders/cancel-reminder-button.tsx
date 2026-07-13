@@ -27,7 +27,7 @@ export function CancelReminderButton({ id }: { id: string }) {
       <Button variant="ghost" size="sm" onClick={onCancel} disabled={pending}>
         {pending ? "Cancelling…" : "Cancel"}
       </Button>
-      {error ? <span className="text-xs text-blood">{error}</span> : null}
+      {error ? <span className="text-xs text-danger">{error}</span> : null}
     </div>
   );
 }

@@ -41,7 +41,7 @@ export function AdvanceCycleButton({
           </>
         )}
       </Button>
-      {error ? <p className="text-xs text-blood">{error}</p> : null}
+      {error ? <p className="text-xs text-danger">{error}</p> : null}
     </div>
   );
 }

@@ -19,11 +19,11 @@ export function ToneShowcase() {
   const active = toneOptions.find((t) => t.id === tone);
 
   return (
-    <section className="relative border-t border-border py-20 sm:py-28">
+    <section className="relative border-t border-border py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
-            <span className="inline-flex items-center rounded-full border border-blood/30 bg-blood/10 px-3 py-1 text-xs font-medium text-blood">
+            <span className="inline-flex items-center rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs font-medium text-accent">
               Say it your way
             </span>
             <h2
@@ -50,7 +50,7 @@ export function ToneShowcase() {
                     className={cn(
                       "rounded-xl border px-4 py-3 text-left transition-all",
                       selected
-                        ? "border-blood/50 bg-blood/10"
+                        ? "border-accent/50 bg-accent/10"
                         : "border-border bg-surface hover:border-border-strong",
                     )}
                   >
@@ -58,7 +58,7 @@ export function ToneShowcase() {
                       <span
                         className={cn(
                           "h-2 w-2 rounded-full transition-colors",
-                          selected ? "bg-blood" : "bg-faint",
+                          selected ? "bg-accent" : "bg-faint",
                         )}
                       />
                       <span
@@ -78,10 +78,10 @@ export function ToneShowcase() {
           </div>
 
           {/* Email preview */}
-          <div className="glow-red rounded-2xl border border-border-strong bg-surface p-1.5">
+          <div className="rounded-2xl border border-border-strong bg-surface p-1.5">
             <div className="rounded-xl bg-elevated">
               <div className="flex items-center gap-2 border-b border-border px-5 py-3">
-                <Mail className="h-4 w-4 text-blood" />
+                <Mail className="h-4 w-4 text-accent" />
                 <span className="text-xs font-medium text-muted">
                   DebtNote reminder
                 </span>
@@ -115,7 +115,7 @@ export function ToneShowcase() {
                     {active?.label}
                   </span>
                   <span
-                    className="text-sm font-bold text-blood"
+                    className="text-sm font-bold text-accent"
                     style={{ fontFamily: "var(--font-crimson), serif" }}
                   >
                     DebtNote

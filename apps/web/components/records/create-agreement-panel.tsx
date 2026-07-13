@@ -84,7 +84,7 @@ export function CreateAgreementPanel({
             />
           </Field>
 
-          {error ? <p className="text-sm text-blood">{error}</p> : null}
+          {error ? <p className="text-sm text-danger">{error}</p> : null}
 
           <Button type="submit" variant="outline" size="sm" disabled={pending} className="w-full">
             {pending ? "Creating…" : "Create agreement"}

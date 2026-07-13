@@ -54,7 +54,7 @@ export function CancelRecordButton({ recordId }: { recordId: string }) {
           Cancel record
         </Button>
       )}
-      {error ? <p className="text-sm text-blood">{error}</p> : null}
+      {error ? <p className="text-sm text-danger">{error}</p> : null}
     </div>
   );
 }

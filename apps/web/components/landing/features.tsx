@@ -33,9 +33,9 @@ const FEATURES: Feature[] = [
     title: "Automated email nudges",
     body:
       "Pick from four tones — from a warm Taglish reminder to the dramatic Shinigami Notice — and let DebtNote follow up so you don't have to.",
-    accent: "text-blood",
-    iconBg: "bg-blood/10",
-    tag: { label: "4 tones", intent: "danger" },
+    accent: "text-accent",
+    iconBg: "bg-accent/10",
+    tag: { label: "4 tones", intent: "info" },
   },
   {
     icon: FileSignature,
@@ -74,28 +74,28 @@ const FEATURES: Feature[] = [
 
 export function Features() {
   return (
-    <section id="features" className="relative border-t border-border py-20 sm:py-28">
+    <section id="features" className="relative border-t border-border py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
           <div className="max-w-2xl">
-            <Badge intent="danger">Everything in one notebook</Badge>
+            <Badge intent="info">Everything in one notebook</Badge>
             <h2
-              className="mt-4 text-3xl text-paper sm:text-4xl"
+              className="mt-5 text-3xl text-paper sm:text-4xl"
               style={{ fontFamily: "var(--font-crimson), serif" }}
             >
               Built for how Filipinos actually lend
             </h2>
-            <p className="mt-4 text-muted">
+            <p className="mt-4 max-w-lg text-muted">
               Not a bank, not a loan app — just a sharper version of the notebook
               you already keep. Warm enough for barkada, firm enough to get paid.
             </p>
           </div>
         </Reveal>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((f, i) => (
             <Reveal key={f.title} delay={0.05 * i}>
-              <Card className="group h-full p-6 transition-colors hover:border-border-strong">
+              <Card className="group h-full border-border/80 bg-surface/50 p-6 transition-colors hover:border-border-strong hover:bg-surface">
                 <div
                   className={`inline-flex h-11 w-11 items-center justify-center rounded-xl ${f.iconBg}`}
                 >

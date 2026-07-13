@@ -93,7 +93,7 @@ export function OtpLoginForm() {
             autoFocus
           />
         </Field>
-        {error ? <p className="text-sm text-blood">{error}</p> : null}
+        {error ? <p className="text-sm text-danger">{error}</p> : null}
         <Button type="submit" disabled={loading} className="w-full">
           {loading ? "Verifying…" : "Verify & continue"}
         </Button>
@@ -127,7 +127,7 @@ export function OtpLoginForm() {
           autoFocus
         />
       </Field>
-      {error ? <p className="text-sm text-blood">{error}</p> : null}
+      {error ? <p className="text-sm text-danger">{error}</p> : null}
       <Button type="submit" disabled={loading} className="w-full">
         {loading ? "Sending…" : "Email me a code"}
       </Button>

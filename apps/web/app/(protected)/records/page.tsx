@@ -115,7 +115,7 @@ export default async function RecordsPage({
           className={cn(
             "rounded-xl border px-3 py-1.5 text-sm font-medium",
             overdueOnly
-              ? "border-blood/40 bg-blood/10 text-blood"
+              ? "border-danger/40 bg-danger/10 text-danger"
               : "border-border text-muted hover:text-paper",
           )}
         >

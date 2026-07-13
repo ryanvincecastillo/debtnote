@@ -64,7 +64,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             className={cn(
               "pointer-events-auto max-w-sm rounded-xl border px-4 py-2.5 text-sm shadow-lg backdrop-blur-xl",
               t.kind === "success" && "border-receivable/40 bg-surface/95 text-receivable",
-              t.kind === "error" && "border-blood/40 bg-surface/95 text-blood",
+              t.kind === "error" && "border-danger/40 bg-surface/95 text-danger",
               t.kind === "info" && "border-border-strong bg-surface/95 text-paper",
             )}
           >

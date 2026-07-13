@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const control =
-  "w-full rounded-xl border border-border-strong bg-elevated px-3.5 py-2.5 text-sm text-foreground placeholder:text-faint focus:border-blood outline-none transition-colors";
+  "w-full rounded-xl border border-border-strong bg-elevated px-3.5 py-2.5 text-sm text-foreground placeholder:text-faint focus:border-accent outline-none transition-colors";
 
 export function Field({
   label,
@@ -23,11 +23,11 @@ export function Field({
     <div className="space-y-1.5">
       <label htmlFor={htmlFor} className="block text-sm font-medium text-paper">
         {label}
-        {required ? <span className="ml-0.5 text-blood">*</span> : null}
+        {required ? <span className="ml-0.5 text-accent">*</span> : null}
       </label>
       {children}
       {error ? (
-        <p className="text-xs text-blood">{error}</p>
+        <p className="text-xs text-danger">{error}</p>
       ) : hint ? (
         <p className="text-xs text-faint">{hint}</p>
       ) : null}

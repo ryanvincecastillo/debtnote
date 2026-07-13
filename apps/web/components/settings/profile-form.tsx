@@ -106,7 +106,7 @@ export function ProfileForm({ profile }: { profile: DebtNoteProfile }) {
         </Select>
       </Field>
 
-      {error ? <p className="text-sm text-blood">{error}</p> : null}
+      {error ? <p className="text-sm text-danger">{error}</p> : null}
 
       <div className="flex items-center gap-3">
         <Button type="submit" variant="primary" size="md" disabled={pending}>
