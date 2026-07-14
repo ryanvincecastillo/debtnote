@@ -5,9 +5,8 @@ import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 /**
  * Resolve the tenant project UUID from its slug.
  *
- * `public.projects` has RLS disabled and is not meant to be exposed via the
- * anon/authenticated PostgREST API, so we resolve it with the service-role key
- * server-side (falls back to anon if the service key is absent).
+ * `public.projects` is locked behind RLS; resolve tenant UUID via
+ * `get_project_id_by_slug` RPC (service-role or anon).
  *
  * Cached per request (React cache) and across warm serverless invocations
  * (module-level) — the slug→UUID mapping is effectively static.
@@ -33,17 +32,15 @@ export const getProjectId = cache(async (): Promise<string> => {
     auth: { persistSession: false, autoRefreshToken: false },
   });
 
-  const { data, error } = await admin
-    .from("projects")
-    .select("id")
-    .eq("slug", slug)
-    .single();
+  const { data, error } = await admin.rpc("get_project_id_by_slug", {
+    p_slug: slug,
+  });
 
   if (error || !data) {
     throw new Error(`Project "${slug}" not found: ${error?.message ?? "no row"}`);
   }
 
-  warmProjectId = data.id as string;
+  warmProjectId = data as string;
   warmProjectSlug = slug;
   return warmProjectId;
 });

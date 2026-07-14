@@ -38,3 +38,5 @@ coverage
 supabase/.branches
 supabase/.temp
 .vscode/claudesync.json
+.vercel
+.env*

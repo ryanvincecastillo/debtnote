@@ -42,14 +42,14 @@ class AppProject {
     }
     if (!SupabaseBootstrap.isInitialized) return null;
     try {
-      final row = await Supabase.instance.client
-          .from('projects')
-          .select('id')
-          .eq('slug', configured)
-          .maybeSingle();
-      final resolvedId = (row?['id'] as String?)?.trim();
-      if (resolvedId == null || resolvedId.isEmpty) return null;
-      _resolvedProjectId = resolvedId;
+      final resolvedId = await Supabase.instance.client
+          .rpc<String?>(
+            'get_project_id_by_slug',
+            params: {'p_slug': configured},
+          );
+      final id = resolvedId?.trim();
+      if (id == null || id.isEmpty) return null;
+      _resolvedProjectId = id;
       return _resolvedProjectId;
     } catch (error) {
       debugPrint('Failed to resolve APP_PROJECT_ID: $error');
